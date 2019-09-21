@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>0.1.0-alpha</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/bluegrams/apphelpers/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/bluegrams/apphelpers</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$title$</description>
+    <copyright>© 2019 Bluegrams</copyright>
+    <tags>winforms application settings aboutbox portable</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\de\**" target="lib\net45\de" />
+    <file src="bin\$configuration$\$id$.xml" target="lib\net45" />
+  </files>
+</package>

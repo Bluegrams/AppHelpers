@@ -21,7 +21,7 @@ namespace Bluegrams.Application.WPF
         /// <summary>
         /// A custom color used e.g. for coloring the heading of the window.
         /// </summary>
-        public Color HighlightColor { get; set; } = Colors.DarkGray;
+        public Color AccentColor { get; set; } = Colors.DarkGray;
 
         /// <summary>
         /// Creates a new instance of the class AboutBox.

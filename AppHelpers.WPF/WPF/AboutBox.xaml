@@ -6,8 +6,11 @@
         Width="300" SizeToContent="Height" ResizeMode="NoResize" Title="{Binding Source={x:Static local:AppInfo.Title}}"
         Loaded="Window_Loaded" KeyDown="Window_KeyDown" ShowInTaskbar="False" UseLayoutRounding="True"
         WindowStartupLocation="CenterOwner">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
     <Window.Resources>
-        <SolidColorBrush x:Key="productBrush" Color="{Binding Path=HighlightColor}"/>
+        <SolidColorBrush x:Key="productBrush" Color="{Binding Path=AccentColor}"/>
     </Window.Resources>
     <DockPanel Margin="5,0,5,7">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="47">
@@ -38,7 +41,7 @@
         <Line DockPanel.Dock="Top" X1="0" X2="300" Margin="5,0" Stroke="{DynamicResource productBrush}" StrokeThickness="2"/>
         <Grid Height="145" Margin="0,5">
             <Grid.Resources>
-                <Style TargetType="Label">
+                <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
                     <Setter Property="Padding" Value="5,0"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>

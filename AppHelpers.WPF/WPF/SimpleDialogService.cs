@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Bluegrams.Application.WPF
 {
@@ -9,11 +10,14 @@ namespace Bluegrams.Application.WPF
     /// </summary>
     public class SimpleDialogService : IDialogService
     {
+        protected Color AccentColor = Colors.DarkGray;
+
         /// <inheritdoc />
         public virtual void ShowAboutBox(IUpdateChecker updateChecker = null)
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.UpdateChecker = updateChecker;
+            aboutBox.AccentColor = AccentColor;
             aboutBox.Owner = System.Windows.Application.Current.Windows
                                    .OfType<Window>().SingleOrDefault(x => x.IsActive);
             aboutBox.ShowDialog();

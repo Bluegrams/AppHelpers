@@ -94,35 +94,44 @@ namespace Bluegrams.Application
                         Context.WindowState = (WindowState)CustomSettings["WindowState"];
                     }
                 }
-                checkOutOfBorders();
+                var newLoc = MoveIntoScreenBounds(Context);
+                Context.Left = newLoc.X;
+                Context.Top = newLoc.Y;
             }
         }
 
-        private void checkOutOfBorders()
+        /// <summary>
+        /// Returns a new position within the screen bounds for a given window that may be outside.
+        /// </summary>
+        /// <param name="window">The window to be checked.</param>
+        /// <returns>A new position within the screeen bounds if the current position is outside; the old position otherwise.</returns>
+        public static Point MoveIntoScreenBounds(Window window)
         {
-            Rect windowRect = new Rect(Context.Left, Context.Top, 
-                                       Context.Width, Context.Height);
+            Rect windowRect = new Rect(window.Left, window.Top,
+                                       window.Width, window.Height);
             Rect screenRect = 
-                new Rect(fromPhysical(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop),
-                                       fromPhysical(SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth, 
-                                                    SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight));
+                new Rect(fromPhysical(window, SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop),
+                         fromPhysical(window, SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth, 
+                                              SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight));
+            Point newLocation = windowRect.Location;
             if (!screenRect.IntersectsWith(windowRect))
             {
                 if (windowRect.Left < screenRect.Left)
-                    Context.Left = screenRect.Left;
+                    newLocation.X = screenRect.Left;
                 else if (windowRect.Left > screenRect.Right)
-                    Context.Left = screenRect.Right - Context.Width;
+                    newLocation.X = screenRect.Right - windowRect.Width;
                 if (windowRect.Top < screenRect.Top)
-                    Context.Top = screenRect.Top;
-                else if (windowRect.Top > screenRect.Bottom)
-                    Context.Top = screenRect.Bottom - Context.Height;
+                    newLocation.Y = screenRect.Top;
+                else if (windowRect.Top >= screenRect.Bottom)
+                    newLocation.Y = screenRect.Bottom - windowRect.Height;
             }
+            return newLocation;
         }
 
         // transforms physical coordinates to a scaled point.
-        private Point fromPhysical(double x, double y)
+        private static Point fromPhysical(Visual vis, double x, double y)
         {
-            Matrix transform = PresentationSource.FromVisual(Context).CompositionTarget.TransformFromDevice;
+            Matrix transform = PresentationSource.FromVisual(vis).CompositionTarget.TransformFromDevice;
             return transform.Transform(new Point(x, y));
         }
 

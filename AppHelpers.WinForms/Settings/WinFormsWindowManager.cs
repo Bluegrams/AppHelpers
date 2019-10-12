@@ -94,25 +94,32 @@ namespace Bluegrams.Application
                         Context.WindowState = (FormWindowState)CustomSettings["WindowState"];
                     }
                 }
-                checkOutOfBorders();
+                Context.Location = MoveIntoScreenBounds(Context);
             }
         }
 
-        private void checkOutOfBorders()
+        /// <summary>
+        /// Returns a new position within the screen bounds for a given window that may be outside.
+        /// </summary>
+        /// <param name="form">The window to be checked.</param>
+        /// <returns>A new position within the screeen bounds if the current position is outside; the old position otherwise.</returns>
+        public static Point MoveIntoScreenBounds(Form form)
         {
-            Rectangle windowRect = new Rectangle(Context.Location, Context.Size);
+            Rectangle windowRect = form.Bounds;
             Rectangle screenRect = Screen.FromRectangle(windowRect).WorkingArea;
+            Point newLocation = windowRect.Location;
             if (!screenRect.IntersectsWith(windowRect))
             {
                 if (windowRect.Left < screenRect.Left)
-                    Context.Left = screenRect.Left;
+                    newLocation.X = screenRect.Left;
                 else if (windowRect.Left > screenRect.Right)
-                    Context.Left = screenRect.Right - Context.Width;
+                    newLocation.X = screenRect.Right - windowRect.Width;
                 if (windowRect.Top < screenRect.Top)
-                    Context.Top = screenRect.Top;
-                else if (windowRect.Top > screenRect.Bottom)
-                    Context.Top = screenRect.Bottom - Context.Height;
+                    newLocation.Y = screenRect.Top;
+                else if (windowRect.Top >= screenRect.Bottom)
+                    newLocation.Y = screenRect.Bottom - windowRect.Height;
             }
+            return newLocation;
         }
 
         private void Parent_LocationChanged(object sender, EventArgs e)

@@ -22,7 +22,7 @@ namespace Bluegrams.Application.WinForms
         /// <summary>
         /// A custom color used e.g. for coloring the heading of the window.
         /// </summary>
-        public Color HighlightColor { get; set; } = Color.DarkGray;
+        public Color AccentColor { get; set; } = Color.DarkGray;
 
         private Panel panTitle;
         private PictureBox picIcon;
@@ -200,8 +200,8 @@ namespace Bluegrams.Application.WinForms
                 butUpdate.Visible = true;
             else butUpdate.Visible = false;
             if (picIcon.Image == null)
-                picIcon.BackColor = this.HighlightColor;
-            lblTitle.ForeColor = this.HighlightColor;
+                picIcon.BackColor = this.AccentColor;
+            lblTitle.ForeColor = this.AccentColor;
         }
 
         private void AboutForm_KeyDown(object sender, KeyEventArgs e)

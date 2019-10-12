@@ -5,12 +5,15 @@
         xmlns:sp="clr-namespace:Bluegrams.Application.Properties"
         Title="{x:Static sp:Resources.strSoftwareUpdate}" Width="300" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
     <Window.Resources>
-        <Style TargetType="Button">
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="4,6"/>
             <Setter Property="Padding" Value="8,2"/>
         </Style>
-        <Style TargetType="TextBlock">
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Margin" Value="4"/>
         </Style>
     </Window.Resources>

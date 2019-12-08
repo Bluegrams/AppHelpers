@@ -78,8 +78,8 @@ namespace Bluegrams.Application.WinForms
             tableLayout = new TableLayoutPanel();
             tableLayout.SuspendLayout();
             tableLayout.ColumnCount = 2;
-            tableLayout.Location = new Point(5, 65);
-            tableLayout.Size = new Size(280, 140);
+            tableLayout.Location = new Point(5, 60);
+            tableLayout.Size = new Size(280, 145);
             #region Table content
             // Description
             Label lblDescr = new Label()
@@ -104,9 +104,24 @@ namespace Bluegrams.Application.WinForms
             };
             butUpdate.Click += butUpdate_Click;
             tableLayout.Controls.Add(lblVersion, 1, 1);
-            // Developer/ Copyright
+            // Developer
             tableLayout.Controls.Add(new Label() { Dock = DockStyle.Fill, Text = Resources.strDeveloper }, 0, 2);
-            tableLayout.Controls.Add(new Label() { Dock = DockStyle.Fill, Text = AppInfo.Company }, 1, 2);
+            if (AppInfo.CompanyWebsite != null)
+            {
+                LinkLabel lnkCompany = new LinkLabel()
+                {
+                    Dock = DockStyle.Fill,
+                    Text = AppInfo.CompanyWebsite.Description
+                };
+                lnkCompany.Links.Add(0, lnkCompany.Text.Length, AppInfo.CompanyWebsite.Url);
+                lnkCompany.LinkClicked += lnk_Clicked;
+                tableLayout.Controls.Add(lnkCompany, 1, 2);
+            }
+            else
+            {
+                tableLayout.Controls.Add(new Label() { Dock = DockStyle.Fill, Text = AppInfo.Company }, 1, 2);
+            }
+            // Copyright
             Label lblCopyright = new Label()
             {
                 Dock = DockStyle.Fill,

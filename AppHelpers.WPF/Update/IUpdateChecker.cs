@@ -12,6 +12,11 @@ namespace Bluegrams.Application
         /// </summary>
         string UpdateCheckUrl { get; }
         /// <summary>
+        /// An identifier specifying the download option to use.
+        /// Falls back to the default option specified by DownloadLink if identifier is not found.
+        /// </summary>
+        string DownloadIdentifier { get; }
+        /// <summary>
         /// This event is raised after a check for updates finished.
         /// </summary>
         event EventHandler<UpdateCheckEventArgs> UpdateCheckCompleted;

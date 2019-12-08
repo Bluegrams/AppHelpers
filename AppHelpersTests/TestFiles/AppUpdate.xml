@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AppUpdate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="http://bluegrams.com/xsd/AppUpdate.xsd">
+  <Version>1.2.3.42</Version>
+  <ReleaseDate>2019-12-29</ReleaseDate>
+  <DownloadLink>http://www.example.com</DownloadLink>
+  <DownloadFileName>Default.zip</DownloadFileName>
+  <Downloads>
+    <Download key="fileHashMD5">
+      <Link>TestFiles\DownloadTestFile.txt</Link>
+      <FileName>Download.txt</FileName>
+      <FileHash>A7E2C02541238CBBF70B4C1D94E9BAD8</FileHash>
+    </Download>
+    <Download key="fileHashSHA256">
+      <Link>TestFiles\DownloadTestFile.txt</Link>
+      <FileName>DownloadSHA.txt</FileName>
+      <FileHash algorithm="SHA256">0E068F42C03052D31AD359069302E9CE8F7B79B2470DBD77B827C66B2839CE10</FileHash>
+    </Download>
+    <Download key="otherDownload">
+      <Link>TestFiles\DownloadTestFile.txt</Link>
+    </Download>
+    <Download key="invalidDownload">
+      <Link>TestFiles\DownloadTestFile.txt</Link>
+      <FileHash>A7541238CBBF70B4C1D94E9BAD8E2C02</FileHash>
+    </Download>
+  </Downloads>
+  <VersionNotes>Some release notes. Some more text.</VersionNotes>
+</AppUpdate>

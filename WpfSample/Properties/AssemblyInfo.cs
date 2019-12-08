@@ -9,6 +9,7 @@ using Bluegrams.Application.Attributes;
 // Additional assembly attributes used to fill the 'About' box.
 [assembly: ProductWebsite("http://example.org", "Example.org")]
 [assembly: ProductLicense("https://opensource.org/licenses/BSD-3-Clause", "BSD-3-Clause License")]
+[assembly: CompanyWebsite("http://example.org", "Example Inc.")]
 // Specifiy a list of cultures the application explicitly supports to fill a combo box 
 // that allows switching between these. If this property is not specified, 
 // the combo box won't be visible on the 'About' box.

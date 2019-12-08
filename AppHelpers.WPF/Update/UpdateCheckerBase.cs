@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace Bluegrams.Application
     {
         /// <inheritdoc />
         public string UpdateCheckUrl { get; set; }
+        /// <inheritdoc />
+        public string DownloadIdentifier { get; set; }
 
         /// <inheritdoc />
         public event EventHandler<UpdateCheckEventArgs> UpdateCheckCompleted;
@@ -23,9 +26,11 @@ namespace Bluegrams.Application
         /// Creates a new instance of the UpdateChecker class.
         /// </summary>
         /// <param name="url">The location of the file containing update information.</param>
-        public UpdateCheckerBase(string url)
+        /// <param name="identifier">An identifier specifying the download option to use.</param>
+        public UpdateCheckerBase(string url, string identifier = null)
         {
             this.UpdateCheckUrl = url;
+            this.DownloadIdentifier = identifier;
         }
 
         /// <inheritdoc />
@@ -58,29 +63,56 @@ namespace Bluegrams.Application
         }
 
         /// <summary>
+        /// Resolves the correct download information based on the DownloadIdentifier of the update checker.
+        /// </summary>
+        public DownloadEntry ResolveDownloadEntry(AppUpdate update)
+        {
+            DownloadEntry entry = null;
+            if (DownloadIdentifier != null)
+                entry = update.Downloads?.FirstOrDefault(de => de.Key == DownloadIdentifier);
+            // construct a download entry from default values if key was not found.
+            if (entry == null)
+            {
+                entry = new DownloadEntry()
+                {
+                    Link = update.DownloadLink,
+                    FileName = update.DownloadFileName,
+                    FileHash = null
+                };
+            }
+            if (entry.FileName == null)
+                entry.FileName = Path.GetFileName(entry.Link);
+            return entry;
+        }
+
+        /// <summary>
         /// Downloads the file specified in the given update and verifies the hash sum if available.
         /// </summary>
         /// <param name="update">The update to be downloaded.</param>
-        /// <returns>The full path to the downloaded file or null if an error occurred.</returns>
+        /// <returns>The full path to the downloaded file if the download was successful.</returns>
+        /// <exception cref="UpdateFailedException">If downloading the download failed.</exception>
         public async Task<string> DownloadUpdate(AppUpdate update)
         {
-            string fileName = update.DownloadFileName ?? Path.GetFileName(update.DownloadLink);
-            string filePath = Path.Combine(Path.GetTempPath(), fileName);
+            DownloadEntry entry = ResolveDownloadEntry(update);     
+            string filePath = Path.Combine(Path.GetTempPath(), entry.FileName);
             try
             {
                 WebClient client = new WebClient();
-                await client.DownloadFileTaskAsync(update.DownloadLink, filePath);
+                await client.DownloadFileTaskAsync(entry.Link, filePath);
                 Debug.WriteLine(String.Format("Downloaded update to {0}", filePath));
             }
-            catch { return null; }
-            if (!String.IsNullOrEmpty(update.MD5Hash))
+            catch (Exception e)
             {
-                if (verifyHash(update.MD5Hash, filePath))
+                throw new UpdateFailedException("Downloading the update failed.", e);
+            }
+            if (entry.FileHash != null)
+            {
+                if (VerifyHash(entry.FileHash, filePath))
                     return filePath;
                 else
                 {
                     File.Delete(filePath);
-                    return null;
+                    throw new UpdateFailedException("File verification failed.");
                 }
             }
             else return filePath;
@@ -112,15 +144,36 @@ namespace Bluegrams.Application
             proc.Start();
         }
 
-        private bool verifyHash(string checkHash, string fileName)
+        /// <summary>
+        /// Verifies a given file hash for a given file.
+        /// </summary>
+        /// <param name="fileHash">The file hash to check.</param>
+        /// <param name="fileName">The name of the file to verify.</param>
+        protected virtual bool VerifyHash(FileHash fileHash, string fileName)
         {
-            using (MD5 md5Hash = MD5.Create())
+            // don't check if hash is empty
+            if (String.IsNullOrEmpty(fileHash.Hash))
+                return true;
+            HashAlgorithm hashAlgo = getHashAlgorithm(fileHash.HashAlgorithm);
+            using (var stream = File.OpenRead(fileName))
             {
-                using (var stream = File.OpenRead(fileName))
-                {
-                    string fileHash = BitConverter.ToString(md5Hash.ComputeHash(stream)).Replace("-", "");
-                    return fileHash.Equals(checkHash, StringComparison.InvariantCultureIgnoreCase);
-                }
+                string hashString = BitConverter.ToString(hashAlgo.ComputeHash(stream)).Replace("-", "");
+                return hashString.Equals(fileHash.Hash, StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+
+        private HashAlgorithm getHashAlgorithm(string name)
+        {
+            switch (name)
+            {
+                case "MD5":
+                    return MD5.Create();
+                case "SHA1":
+                    return SHA1.Create();
+                case "SHA256":
+                    return SHA256.Create();
+                default:
+                    throw new UpdateFailedException("Unsupported file hash algorithm.");
             }
         }
 

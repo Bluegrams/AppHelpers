@@ -55,6 +55,9 @@
     <Compile Include="..\AppHelpers.WPF\Attributes\AppPortableAttribute.cs">
       <Link>Attributes\AppPortableAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AppHelpers.WPF\Attributes\CompanyWebsiteAttribute.cs">
+      <Link>Attributes\CompanyWebsiteAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AppHelpers.WPF\Attributes\Link.cs">
       <Link>Attributes\Link.cs</Link>
     </Compile>
@@ -99,6 +102,9 @@
     </Compile>
     <Compile Include="..\AppHelpers.WPF\Update\UpdateCheckEventArgs.cs">
       <Link>Update\UpdateCheckEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AppHelpers.WPF\Update\UpdateFailedException.cs">
+      <Link>Update\UpdateFailedException.cs</Link>
     </Compile>
     <Compile Include="..\AppHelpers.WPF\Update\UpdateNotifyMode.cs">
       <Link>Update\UpdateNotifyMode.cs</Link>

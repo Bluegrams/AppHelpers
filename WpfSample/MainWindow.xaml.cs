@@ -5,6 +5,7 @@ using System.Windows.Navigation;
 using System.Diagnostics;
 using Bluegrams.Application;
 using Bluegrams.Application.WPF;
+using System.ComponentModel;
 
 namespace WpfSample
 {
@@ -13,11 +14,12 @@ namespace WpfSample
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string updateCheckUrl = "https://raw.githubusercontent.com/bluegrams/apphelpers/master/WpfSample/AppUpdateExample.xml";
+        private const string updateCheckUrl = "https://raw.githubusercontent.com/bluegrams/apphelpers/master/WpfSample/UpdateExample.xml";
+        private const string updateIdentifier = "portable";
 
         // Define new variables for the settings manager and the update checker.
         WpfWindowManager manager;
-        IUpdateChecker updateChecker;
+        WpfUpdateChecker updateChecker;
 
         public int OpenCount { get; set; }
 
@@ -25,15 +27,18 @@ namespace WpfSample
         {
             // Create new instances of WindowManager and UpdateChecker for WPF.
             manager = new WpfWindowManager(this);
-            updateChecker = new WpfUpdateChecker(updateCheckUrl, this);
+            updateChecker = new WpfUpdateChecker(updateCheckUrl, this, updateIdentifier);
 
             // --- EXAMPLE 1/2: Persist Window State/ Make Settings Portable ---
-
+            // Manage default properties for Window class.
             manager.ManageDefault();
 
             // Add any public property of the window with this method to let its value
             // be saved when the application is closed and loaded when it starts.
             manager.Manage(nameof(this.OpenCount), defaultValue: -1);
+
+            // Make default settings portable.
+            manager.ApplyToSettings(Properties.Settings.Default);
 
             // Initialize the manager. Please make sure this method is called BEFORE the window is initialized.
             manager.Initialize();
@@ -70,15 +75,29 @@ namespace WpfSample
                 {
                     Debug.WriteLine("Update check failed!");
                 }
-                else Debug.WriteLine($"Found version: {args.Update.Version}.");
+                else
+                {
+                    var download = updateChecker.ResolveDownloadEntry(args.Update);
+                    Debug.WriteLine($"Found version: {args.Update.Version}.");
+                    Debug.WriteLine($"Download file name: {download.FileName}");
+                }
             };
             updateChecker.CheckForUpdates();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Properties.Settings.Default.LocalSetting = txtLocal.Text;
+            Properties.Settings.Default.RoamedSetting = txtRoamed.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void loadSettings()
         {
             lblLang.Content = Properties.Resources.Text;
             lblCount.Content = OpenCount;
+            txtLocal.Text = Properties.Settings.Default.LocalSetting;
+            txtRoamed.Text = Properties.Settings.Default.RoamedSetting;
         }
 
         private void butCheckUpdates_Click(object sender, RoutedEventArgs e)

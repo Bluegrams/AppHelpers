@@ -11,17 +11,22 @@ namespace Bluegrams.Application
     /// </summary>
     public class WpfUpdateChecker : UpdateCheckerBase
     {
-        private readonly Window parent;
         private readonly CustomSettings settings;
+
+        /// <summary>
+        /// Gets or sets the owning window of all update windows.
+        /// </summary>
+        public Window Owner { get; set; }
 
         /// <summary>
         /// Creates a new instance of the WpfUpdateChecker class.
         /// </summary>
         /// <param name="url">The location of the file containing update information.</param>
-        /// <param name="parent">The parent window of the update window to show.</param>
-        public WpfUpdateChecker(string url, Window parent = null) : base(url)
+        /// <param name="owner">The parent window of the update window to show.</param>
+        /// <param name="identifier">An identifier specifying the download option to use.</param>
+        public WpfUpdateChecker(string url, Window owner = null, string identifier = null) : base(url, identifier)
         {
-            this.parent = parent;
+            this.Owner = owner;
             settings = new CustomSettings(AppInfo.IsPortable.GetValueOrDefault(), typeof(UpdateCheckerBase).FullName);
             settings.AddSetting("CheckedUpdate", typeof(string), "0.0", true, System.Configuration.SettingsSerializeAs.String);
         }
@@ -42,26 +47,26 @@ namespace Bluegrams.Application
             else if (e.Successful && e.NewVersion)
             {
                 UpdateWindow updateWindow = new UpdateWindow(e.NewVersion, e.Update);
-                updateWindow.Owner = parent;
+                updateWindow.Owner = this.Owner;
                 if (updateWindow.ShowDialog().GetValueOrDefault())
                 {
-                    string path = Task.Run(async () => await DownloadUpdate(e.Update)).Result;
-                    if (path != null)
-                    {
+                    try
+                    { 
+                        string path = Task.Run(async () => await DownloadUpdate(e.Update)).Result;
                         if (System.IO.Path.GetExtension(path) == ".msi")
-                            ApplyMsiUpdate(path);
+                                ApplyMsiUpdate(path);
                         else ShowUpdateDownload(path);
                     }
-                    else
+                    catch (UpdateFailedException)
                     {
-                        MessageBox.Show(parent, Resources.Box_UpdateFailed, Resources.Box_UpdateFailed_Title,
+                        MessageBox.Show(this.Owner, Resources.Box_UpdateFailed, Resources.Box_UpdateFailed_Title,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             else if (e.UpdateNotifyMode == UpdateNotifyMode.Always)
             {
-                MessageBox.Show(parent, Resources.Box_NoNewUpdate, Resources.strSoftwareUpdate);
+                MessageBox.Show(this.Owner, Resources.Box_NoNewUpdate, Resources.strSoftwareUpdate);
             }
         }
     }

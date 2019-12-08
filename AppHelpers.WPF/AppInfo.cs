@@ -121,6 +121,17 @@ namespace Bluegrams.Application
         }
 
         /// <summary>
+        /// The website of the developer company.
+        /// </summary>
+        public static Link CompanyWebsite
+        {
+            get
+            {
+                return ((CompanyWebsiteAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(CompanyWebsiteAttribute)))?.WebsiteLink;
+            }
+        }
+
+        /// <summary>
         /// The explicitly supported cultures of the assembly.
         /// </summary>
         public static CultureInfo[] SupportedCultures

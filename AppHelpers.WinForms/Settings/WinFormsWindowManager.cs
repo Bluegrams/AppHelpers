@@ -10,6 +10,8 @@ namespace Bluegrams.Application
     /// </summary>
     public class WinFormsWindowManager : WindowManager<Form>
     {
+        private const int DEFAULT = int.MinValue;
+
         private bool manageDefault, sizeable;
         private int savedWidth, savedHeight;
         private int savedLeft, savedTop;
@@ -45,24 +47,17 @@ namespace Bluegrams.Application
         public override void Initialize()
         {
             base.Initialize(nameof(Context.Load), nameof(Context.Closed));
-            if (!Properties.Settings.Default.Updated)
-            {
-                Properties.Settings.Default.Upgrade();
-                CustomSettings.Upgrade();
-                Properties.Settings.Default.Updated = true;
-                Properties.Settings.Default.Save();
-            }
         }
 
         /// <inheritdoc />
         public override void ManageDefault()
         {
             this.manageDefault = true;
-            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Left)), 100);
-            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Top)), 100);
-            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.WindowState)), FormWindowState.Normal);
-            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Width)));
-            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Height)));
+            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Left)), DEFAULT, false);
+            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Top)), DEFAULT, false);
+            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.WindowState)), FormWindowState.Normal, false);
+            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Width)), DEFAULT, false);
+            CustomSettings.AddSetting(Context.GetType().GetProperty(nameof(Context.Height)), DEFAULT, false);
         }
 
         #region "Parent Events"
@@ -75,16 +70,18 @@ namespace Bluegrams.Application
                 Context.LocationChanged += Parent_LocationChanged;
                 sizeable = Context.FormBorderStyle == FormBorderStyle.Sizable || AlwaysTrackResize;
                 if (sizeable) Context.SizeChanged += Parent_SizeChanged;
-                Context.Left = (int)CustomSettings["Left"];
-                Context.Top = (int)CustomSettings["Top"];
+                if ((int)CustomSettings["Left"]  != DEFAULT)
+                    Context.Left = (int)CustomSettings["Left"];
+                if ((int)CustomSettings["Top"] != DEFAULT)
+                    Context.Top = (int)CustomSettings["Top"];
                 if (sizeable)
                 {
                     try
                     {
                         savedWidth = Context.Width; savedHeight = Context.Height;
-                        if (CustomSettings["Width"] != null)
+                        if ((int)CustomSettings["Width"] != DEFAULT)
                             Context.Width = (int)CustomSettings["Width"];
-                        if (CustomSettings["Height"] != null)
+                        if ((int)CustomSettings["Height"] != DEFAULT)
                             Context.Height = (int)CustomSettings["Height"];
                         Context.WindowState = (FormWindowState)CustomSettings["WindowState"];
                     }

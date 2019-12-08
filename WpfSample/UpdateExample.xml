@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AppUpdate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="http://bluegrams.com/xsd/AppUpdate.xsd">
+  <Version>1.1</Version>
+  <ReleaseDate>2019-01-01</ReleaseDate>
+  <!-- Default download -->
+  <DownloadLink>https://github.com/bluegrams/AppHelpers/releases</DownloadLink>
+  <DownloadFileName>Installer.msi</DownloadFileName>
+  <!-- All download options -->
+  <Downloads>
+    <Download key="portable">
+      <Link>https://github.com/bluegrams/AppHelpers/releases</Link>
+      <FileName>Portable.zip</FileName>
+      <FileHash></FileHash>
+    </Download>
+  </Downloads>
+  <!-- Release notes -->
+  <VersionNotes>Some release notes for this version.</VersionNotes>
+  <ReleaseNotes></ReleaseNotes>
+</AppUpdate>

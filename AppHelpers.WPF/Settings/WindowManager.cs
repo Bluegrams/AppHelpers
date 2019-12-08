@@ -11,6 +11,7 @@ namespace Bluegrams.Application
     public abstract class WindowManager<T> : ISettingsManager<T> where T : class
     {
         private HashSet<string> managedSettings;
+        private List<ApplicationSettingsBase> applicationSettings;
 
         /// <inheritdoc />
         public T Context { get; }
@@ -25,6 +26,7 @@ namespace Bluegrams.Application
         {
             this.Context = context;
             managedSettings = new HashSet<string>();
+            applicationSettings = new List<ApplicationSettingsBase>();
             CustomSettings = new CustomSettings(AppInfo.IsPortable.GetValueOrDefault());
         }
 
@@ -42,20 +44,32 @@ namespace Bluegrams.Application
             EventInfo saveInfo = typeof(T).GetEvent(saveEvent);
             var dSave = Helpers.CreateHandler(saveInfo, () => ContextSave());
             saveInfo.AddEventHandler(Context, dSave);
+            // upgrade settings from old version if necessary
+            if (!Properties.Settings.Default.Updated)
+            {
+                Properties.Settings.Default.Upgrade();
+                CustomSettings.Upgrade();
+                foreach (var settings in applicationSettings)
+                {
+                    settings.Upgrade();
+                }
+                Properties.Settings.Default.Updated = true;
+                Properties.Settings.Default.Save();
+            }
         }
 
         /// <inheritdoc />
         public abstract void ManageDefault();
 
         /// <inheritdoc />
-        public void Manage(string propertyName, object defaultValue = null, bool roamed = false)
+        public void Manage(string propertyName, object defaultValue = null, bool roamed = true)
         {
             managedSettings.Add(propertyName);
             CustomSettings.AddSetting(Context.GetType().GetProperty(propertyName), defaultValue, roamed);
         }
 
         /// <inheritdoc />
-        public void Manage(string propertyName, SettingsSerializeAs serializeAs, object defaultValue = null, bool roamed = false)
+        public void Manage(string propertyName, SettingsSerializeAs serializeAs, object defaultValue = null, bool roamed = true)
         {
             managedSettings.Add(propertyName);
             CustomSettings.AddSetting(Context.GetType().GetProperty(propertyName), defaultValue, roamed, serializeAs);
@@ -66,6 +80,17 @@ namespace Bluegrams.Application
         {
             foreach (string prop in propertyNames)
                 Manage(prop);
+        }
+
+        /// <summary>
+        /// Make the given settings portable if application is portable.
+        /// </summary>
+        /// <param name="settings">An array of ApplicationSettingsBase.</param>
+        public void ApplyToSettings(params ApplicationSettingsBase[] settings)
+        {
+            if (AppInfo.IsPortable.GetValueOrDefault())
+                PortableSettingsProvider.ApplyProvider(settings);
+            applicationSettings.AddRange(settings);
         }
 
         /// <summary>

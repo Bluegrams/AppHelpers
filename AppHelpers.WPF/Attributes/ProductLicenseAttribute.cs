@@ -17,16 +17,6 @@ namespace Bluegrams.Application.Attributes
         /// <summary>
         /// Creates a new instance of the ProductLicenseAttribute class.
         /// </summary>
-        public ProductLicenseAttribute(string url)
-        {
-            if (!isAbsolutePath(url))
-                url = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, url);
-            LicenseLink = new Link(url);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the ProductLicenseAttribute class.
-        /// </summary>
         public ProductLicenseAttribute(string url, string displayText)
         {
             if (!isAbsolutePath(url))

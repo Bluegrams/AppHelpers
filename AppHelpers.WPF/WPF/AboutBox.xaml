@@ -66,18 +66,28 @@
                 <Label Content="{Binding Source={x:Static local:AppInfo.Version}}"/>
             </DockPanel>
             <Label Grid.Row="2" Grid.Column="0" Content="{Binding Source={x:Static sp:Resources.strDeveloper}}"/>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding Source={x:Static local:AppInfo.Company}}"/>
+            <Label x:Name="lblCompany" Grid.Row="2" Grid.Column="1" Content="{Binding Source={x:Static local:AppInfo.Company}}"
+                   Visibility="Hidden"/>
+            <Label x:Name="lblCompanyWebsite" Grid.Row="2" Grid.Column="1" Visibility="Hidden">
+                <Hyperlink NavigateUri="{Binding Source={x:Static local:AppInfo.CompanyWebsite}, Path=Url}"
+                           RequestNavigate="Hyperlink_RequestNavigate"
+                           ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=NavigateUri}">
+                    <TextBlock Text="{Binding Source={x:Static local:AppInfo.CompanyWebsite}, Path=Description}"/>
+                </Hyperlink>
+            </Label>
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding Source={x:Static local:AppInfo.Copyright}}"/>
             <Label Grid.Row="4" Grid.Column="0" Content="{Binding Source={x:Static sp:Resources.strLicense}}"/>
             <Label Grid.Row="4" Grid.Column="1">
                 <Hyperlink NavigateUri="{Binding Source={x:Static local:AppInfo.ProductLicense}, Path=Url}"
-                           RequestNavigate="Hyperlink_RequestNavigate">
+                           RequestNavigate="Hyperlink_RequestNavigate"
+                           ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=NavigateUri}">
                     <TextBlock Text="{Binding Source={x:Static local:AppInfo.ProductLicense}, Path=Description}"/>
                 </Hyperlink>
             </Label>
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                 <Hyperlink NavigateUri="{Binding Source={x:Static local:AppInfo.ProductWebsite}, Path=Url}"
-                           RequestNavigate="Hyperlink_RequestNavigate">
+                           RequestNavigate="Hyperlink_RequestNavigate"
+                           ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=NavigateUri}">
                     <TextBlock Text="{Binding Source={x:Static local:AppInfo.ProductWebsite}, Path=Description}"/>
                 </Hyperlink>
             </Label>

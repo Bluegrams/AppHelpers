@@ -24,7 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\AppHelpers.WPF.xml</DocumentationFile>
-    <LangVersion>6</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="AppInfo.cs" />
     <Compile Include="Attributes\AppPortableAttribute.cs" />
+    <Compile Include="Attributes\CompanyWebsiteAttribute.cs" />
     <Compile Include="Attributes\ProductLicenseAttribute.cs" />
     <Compile Include="Attributes\ProductWebsiteAttribute.cs" />
     <Compile Include="Attributes\SupportedCulturesAttribute.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Update\IUpdateChecker.cs" />
+    <Compile Include="Update\UpdateFailedException.cs" />
     <Compile Include="Update\WpfUpdateChecker.cs" />
     <Compile Include="WPF\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>

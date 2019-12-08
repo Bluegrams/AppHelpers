@@ -38,6 +38,10 @@ namespace Bluegrams.Application.WPF
                 brdIcon.Background = new SolidColorBrush(Colors.Transparent);
             }
             this.Title = Properties.Resources.strAbout + " " + Title;
+            // show available company information
+            if (AppInfo.CompanyWebsite != null)
+                lblCompanyWebsite.Visibility = Visibility.Visible;
+            else lblCompany.Visibility = Visibility.Visible;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -132,6 +132,9 @@
       <Link>Properties\Resources.de.resx</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.es.resx">
+      <Link>Properties\Resources.es.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
     </EmbeddedResource>

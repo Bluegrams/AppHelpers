@@ -30,7 +30,7 @@ namespace AppHelpersTests
                 Assert.AreEqual(UpdateNotifyMode.Always, e.UpdateNotifyMode);
                 Assert.AreEqual("1.2.3.42", e.Update.Version);
                 Assert.AreEqual(new DateTime(2019, 12, 29), e.Update.ReleaseDate);
-                Assert.AreEqual(4, e.Update.Downloads.Length);
+                Assert.AreEqual(5, e.Update.Downloads.Length);
                 Assert.AreEqual("Some release notes. Some more text.", e.Update.VersionNotes);
                 autoReset.Set();
             };

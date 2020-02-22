@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>$id$</id>
-    <version>0.1.0-beta</version>
+    <version>0.1.0-beta3</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -10,10 +10,11 @@
     <projectUrl>https://github.com/bluegrams/apphelpers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$title$</description>
-    <copyright>© 2019 Bluegrams</copyright>
+    <copyright>© 2020 Bluegrams</copyright>
     <tags>wpf application settings aboutbox portable</tags>
   </metadata>
   <files>
     <file src="bin\$configuration$\de\**" target="lib\net45\de" />
+    <file src="bin\$configuration$\es\**" target="lib\net45\es" />
   </files>
 </package>

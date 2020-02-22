@@ -13,7 +13,7 @@ using Bluegrams.Application.Attributes;
 // Specifiy a list of cultures the application explicitly supports to fill a combo box 
 // that allows switching between these. If this property is not specified, 
 // the combo box won't be visible on the 'About' box.
-[assembly: SupportedCultures("de", "en")]
+[assembly: SupportedCultures("de", "en", "es")]
 
 // General Information about an assembly is controlled through the following
 // set of attributes.

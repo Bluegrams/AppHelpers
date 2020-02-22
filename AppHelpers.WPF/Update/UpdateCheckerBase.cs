@@ -81,8 +81,15 @@ namespace Bluegrams.Application
                 };
             }
             if (entry.FileName == null)
-                entry.FileName = Path.GetFileName(entry.Link);
+                entry.FileName = getFileName(entry.Link);
             return entry;
+        }
+
+        private string getFileName(string link)
+        {
+            if (Uri.TryCreate(link, UriKind.Absolute, out Uri uri))
+                return Path.GetFileName(uri.LocalPath);
+            else return Path.GetFileName(link);
         }
 
         /// <summary>

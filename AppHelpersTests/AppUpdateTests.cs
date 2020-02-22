@@ -66,14 +66,17 @@ namespace AppHelpersTests
             Assert.AreEqual(downloadFileText, File.ReadAllText(downloadPath));
         }
 
-        [TestMethod]
-        public async Task TestDownloadUpdateNoFileName()
+        [DataTestMethod]
+        [DataRow("otherDownload", "DownloadTestFile.txt", true)]
+        [DataRow("otherDownload2", "CorrectFileName.zip", false)]
+        public async Task TestDownloadUpdateNoFileName(string identifier, string expectedName, bool download)
         {
-            updateChecker.DownloadIdentifier = "otherDownload";
+            updateChecker.DownloadIdentifier = identifier;
             // first check FileName
             DownloadEntry entry = updateChecker.ResolveDownloadEntry(appUpdate);
-            Assert.AreEqual("DownloadTestFile.txt", entry.FileName);
+            Assert.AreEqual(expectedName, entry.FileName);
             // now perform download
+            if (!download) return;
             string downloadPath = await updateChecker.DownloadUpdate(appUpdate);
             Assert.IsNotNull(downloadPath);
             Assert.AreEqual(downloadFileText, File.ReadAllText(downloadPath));

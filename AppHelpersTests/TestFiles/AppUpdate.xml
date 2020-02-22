@@ -19,6 +19,9 @@
     <Download key="otherDownload">
       <Link>TestFiles\DownloadTestFile.txt</Link>
     </Download>
+    <Download key="otherDownload2">
+      <Link>http://example.com/CorrectFileName.zip</Link>
+    </Download>
     <Download key="invalidDownload">
       <Link>TestFiles\DownloadTestFile.txt</Link>
       <FileHash>A7541238CBBF70B4C1D94E9BAD8E2C02</FileHash>

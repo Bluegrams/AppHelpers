@@ -167,4 +167,8 @@ Versuchen Sie es später nochmal oder aktualisieren Sie manuell.</value>
   <data name="strVersion" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="Box_UpdateCheckFailed" xml:space="preserve">
+    <value>Suchen nach Updates fehlgeschlagen.
+Bitte suchen Sie manuell nach Aktualisierungen.</value>
+  </data>
 </root>

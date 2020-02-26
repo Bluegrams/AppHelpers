@@ -167,4 +167,8 @@ You may try again later or consider updating manually.</value>
   <data name="strVersion" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="Box_UpdateCheckFailed" xml:space="preserve">
+    <value>Update check failed.
+Please check for updates manually.</value>
+  </data>
 </root>

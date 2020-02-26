@@ -66,7 +66,15 @@ namespace Bluegrams.Application
             }
             else if (e.UpdateNotifyMode == UpdateNotifyMode.Always)
             {
-                MessageBox.Show(this.Owner, Resources.Box_NoNewUpdate, Resources.strSoftwareUpdate);
+                if (e.Successful)
+                {
+                    MessageBox.Show(this.Owner, Resources.Box_NoNewUpdate, Resources.strSoftwareUpdate);
+                }
+                else
+                {
+                    MessageBox.Show(this.Owner, Resources.Box_UpdateCheckFailed, Resources.Box_UpdateFailed_Title,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

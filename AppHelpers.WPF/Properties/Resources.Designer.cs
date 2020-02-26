@@ -70,6 +70,16 @@ namespace Bluegrams.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update check failed.
+        ///Please check for updates manually..
+        /// </summary>
+        public static string Box_UpdateCheckFailed {
+            get {
+                return ResourceManager.GetString("Box_UpdateCheckFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloading updates failed.
         ///You may try again later or consider updating manually..
         /// </summary>

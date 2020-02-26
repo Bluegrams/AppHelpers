@@ -31,6 +31,7 @@ namespace Bluegrams.Application
         {
             this.UpdateCheckUrl = url;
             this.DownloadIdentifier = identifier;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
         }
 
         /// <inheritdoc />

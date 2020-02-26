@@ -167,4 +167,8 @@ Podrá intentarlo nuevamente después o puede actualizar manualmente.</value>
   <data name="strVersion" xml:space="preserve">
     <value>Versión</value>
   </data>
+  <data name="Box_UpdateCheckFailed" xml:space="preserve">
+    <value>La comprobación de la actualización falló.
+Por favor, compruebe las actualizaciones manualmente.</value>
+  </data>
 </root>

@@ -99,6 +99,24 @@ namespace Bluegrams.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading Update.
+        /// </summary>
+        public static string DownloadProgressWindow_Header {
+            get {
+                return ResourceManager.GetString("DownloadProgressWindow_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading version {0} . . ..
+        /// </summary>
+        public static string DownloadProgressWindow_Text {
+            get {
+                return ResourceManager.GetString("DownloadProgressWindow_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All unsaved changed will be lost after restart.
         ///Continue?.
         /// </summary>

@@ -38,17 +38,17 @@ namespace Bluegrams.Application
         public void CheckForUpdates(UpdateNotifyMode notifyMode = UpdateNotifyMode.NewUpdate)
         {
             Task.Run(() => getUpdateData(UpdateCheckUrl))
-                .ContinueWith(t =>
+                .ContinueWith(async t =>
                 {
                     if (t.IsFaulted)
                     {
-                        OnUpdateCheckCompleted(
+                        await OnUpdateCheckCompleted(
                             new UpdateCheckEventArgs(false, null, notifyMode, t.Exception.InnerException)
                         );
                     }
                     else if (t.IsCompleted)
                     {
-                        OnUpdateCheckCompleted(new UpdateCheckEventArgs(true, t.Result, notifyMode));
+                        await OnUpdateCheckCompleted(new UpdateCheckEventArgs(true, t.Result, notifyMode));
                     }
                 },
                 TaskScheduler.FromCurrentSynchronizationContext());
@@ -58,9 +58,10 @@ namespace Bluegrams.Application
         /// Raises the UpdateCheckCompleted event.
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnUpdateCheckCompleted(UpdateCheckEventArgs e)
+        protected virtual Task OnUpdateCheckCompleted(UpdateCheckEventArgs e)
         {
             UpdateCheckCompleted?.Invoke(this, e);
+            return Task.FromResult(false);
         }
 
         /// <summary>
@@ -97,16 +98,25 @@ namespace Bluegrams.Application
         /// Downloads the file specified in the given update and verifies the hash sum if available.
         /// </summary>
         /// <param name="update">The update to be downloaded.</param>
+        /// <param name="downloadProgress">A download progress provider.</param>
         /// <returns>The full path to the downloaded file if the download was successful.</returns>
         /// <exception cref="UpdateFailedException">If downloading the download failed.</exception>
-        public async Task<string> DownloadUpdate(AppUpdate update)
+        public async Task<string> DownloadUpdate(AppUpdate update, IProgress<int> downloadProgress = null)
         {
             DownloadEntry entry = ResolveDownloadEntry(update);     
+            Uri uri = new Uri(entry.Link, UriKind.RelativeOrAbsolute);
             string filePath = Path.Combine(Path.GetTempPath(), entry.FileName);
             try
             {
-                WebClient client = new WebClient();
-                await client.DownloadFileTaskAsync(entry.Link, filePath);
+                if (uri.IsAbsoluteUri)
+                {
+                    WebClient client = new WebClient();
+                    await client.DownloadFileTaskAsync(new Uri(entry.Link, UriKind.RelativeOrAbsolute), filePath, downloadProgress);
+                }
+                else
+                {
+                    File.Copy(uri.ToString(), filePath, true);
+                }
                 Debug.WriteLine(String.Format("Downloaded update to {0}", filePath));
             }
             catch (Exception e)

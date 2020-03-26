@@ -73,6 +73,9 @@
     <Compile Include="..\AppHelpers.WPF\IDialogService.cs">
       <Link>IDialogService.cs</Link>
     </Compile>
+    <Compile Include="..\AppHelpers.WPF\Logger.cs">
+      <Link>Logger.cs</Link>
+    </Compile>
     <Compile Include="..\AppHelpers.WPF\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
     </Compile>
@@ -108,6 +111,9 @@
     </Compile>
     <Compile Include="..\AppHelpers.WPF\Update\UpdateNotifyMode.cs">
       <Link>Update\UpdateNotifyMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AppHelpers.WPF\Update\WebClientExtensions.cs">
+      <Link>Update\WebClientExtensions.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\WinFormsWindowManager.cs" />

@@ -32,9 +32,9 @@ namespace Bluegrams.Application
         }
 
         /// <inheritdoc />
-        protected override void OnUpdateCheckCompleted(UpdateCheckEventArgs e)
+        protected async override Task OnUpdateCheckCompleted(UpdateCheckEventArgs e)
         {
-            base.OnUpdateCheckCompleted(e);
+            await base.OnUpdateCheckCompleted(e);
             bool isNewer = e.Successful && new Version(e.Update.Version) > new Version((string)settings["CheckedUpdate"]);
             if (e.NewVersion)
             {
@@ -52,7 +52,7 @@ namespace Bluegrams.Application
                 {
                     try
                     { 
-                        string path = Task.Run(async () => await DownloadUpdate(e.Update)).Result;
+                        string path = await DownloadUpdate(e.Update);
                         if (System.IO.Path.GetExtension(path) == ".msi")
                             ApplyMsiUpdate(path);
                         else ShowUpdateDownload(path);

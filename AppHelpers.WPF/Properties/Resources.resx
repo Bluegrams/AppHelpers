@@ -171,4 +171,10 @@ You may try again later or consider updating manually.</value>
     <value>Update check failed.
 Please check for updates manually.</value>
   </data>
+  <data name="DownloadProgressWindow_Header" xml:space="preserve">
+    <value>Downloading Update</value>
+  </data>
+  <data name="DownloadProgressWindow_Text" xml:space="preserve">
+    <value>Downloading version {0} . . .</value>
+  </data>
 </root>

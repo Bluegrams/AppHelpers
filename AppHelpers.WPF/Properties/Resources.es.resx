@@ -171,4 +171,10 @@ Podrá intentarlo nuevamente después o puede actualizar manualmente.</value>
     <value>La comprobación de la actualización falló.
 Por favor, compruebe las actualizaciones manualmente.</value>
   </data>
+  <data name="DownloadProgressWindow_Header" xml:space="preserve">
+    <value>Descarga de la actualización</value>
+  </data>
+  <data name="DownloadProgressWindow_Text" xml:space="preserve">
+    <value>Descargando la versión {0} . . .</value>
+  </data>
 </root>

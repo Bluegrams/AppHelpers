@@ -65,6 +65,7 @@
     <Compile Include="Attributes\ProductLicenseAttribute.cs" />
     <Compile Include="Attributes\ProductWebsiteAttribute.cs" />
     <Compile Include="Attributes\SupportedCulturesAttribute.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Settings\Helpers.cs" />
     <Compile Include="Settings\WpfWindowManager.cs" />
     <Compile Include="Settings\WindowManager.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Update\IUpdateChecker.cs" />
     <Compile Include="Update\UpdateFailedException.cs" />
+    <Compile Include="Update\WebClientExtensions.cs" />
     <Compile Include="Update\WpfUpdateChecker.cs" />
     <Compile Include="WPF\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
@@ -89,6 +91,9 @@
     <Compile Include="Settings\CustomSettings.cs" />
     <Compile Include="Attributes\Link.cs" />
     <Compile Include="IDialogService.cs" />
+    <Compile Include="WPF\DownloadProgressWindow.xaml.cs">
+      <DependentUpon>DownloadProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\SimpleDialogService.cs" />
     <Compile Include="WPF\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
@@ -100,6 +105,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="WPF\AboutBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\DownloadProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Configuration;
+using System.Globalization;
 
 namespace Bluegrams.Application
 {
@@ -65,7 +66,7 @@ namespace Bluegrams.Application
                     new SettingsManageabilityAttribute(SettingsManageability.Roaming));
             }
             settingsProp.SerializeAs = serializeAs;
-            settingsProp.DefaultValue = defaultValue?.ToString();
+            settingsProp.DefaultValue = Convert.ToString(defaultValue, CultureInfo.InvariantCulture);
             Properties.Add(settingsProp);
         }
 

@@ -46,7 +46,7 @@ namespace Bluegrams.Application
         /// <inheritdoc />
         public override void Initialize()
         {
-            base.Initialize(nameof(Context.Load), nameof(Context.Closed));
+            base.Initialize(nameof(Context.Load), nameof(Context.FormClosing));
         }
 
         /// <inheritdoc />

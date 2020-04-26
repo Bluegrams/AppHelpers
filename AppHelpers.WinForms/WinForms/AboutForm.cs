@@ -256,6 +256,9 @@ namespace Bluegrams.Application.WinForms
         {
             Settings.Default.Culture = culture.Name;
             Settings.Default.Save();
+            /* Explicitly close the owner form if available to ensure closing events are called:
+                https://stackoverflow.com/a/13527298/9145461 */
+            this.Owner?.Close();
             System.Windows.Forms.Application.Exit();
             if (Environment.GetCommandLineArgs().Length > 1)
             {

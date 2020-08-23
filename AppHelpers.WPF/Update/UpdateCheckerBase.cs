@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -99,9 +100,11 @@ namespace Bluegrams.Application
         /// </summary>
         /// <param name="update">The update to be downloaded.</param>
         /// <param name="downloadProgress">A download progress provider.</param>
-        /// <returns>The full path to the downloaded file if the download was successful.</returns>
+        /// <param name="ct">A CancellationToken used to cancel the download.</param>
+        /// <returns>The full path to the downloaded file if the download was successful; null if the download was canceled.</returns>
         /// <exception cref="UpdateFailedException">If downloading the download failed.</exception>
-        public async Task<string> DownloadUpdate(AppUpdate update, IProgress<int> downloadProgress = null)
+        public async Task<string> DownloadUpdate(AppUpdate update, IProgress<int> downloadProgress = null,
+            CancellationToken ct = default(CancellationToken))
         {
             DownloadEntry entry = ResolveDownloadEntry(update);     
             Uri uri = new Uri(entry.Link, UriKind.RelativeOrAbsolute);
@@ -111,6 +114,7 @@ namespace Bluegrams.Application
                 if (uri.IsAbsoluteUri)
                 {
                     WebClient client = new WebClient();
+                    ct.Register(client.CancelAsync);
                     await client.DownloadFileTaskAsync(new Uri(entry.Link, UriKind.RelativeOrAbsolute), filePath, downloadProgress);
                 }
                 else
@@ -118,6 +122,11 @@ namespace Bluegrams.Application
                     File.Copy(uri.ToString(), filePath, true);
                 }
                 Debug.WriteLine(String.Format("Downloaded update to {0}", filePath));
+            }
+            catch (WebException ex) when (ex.Message == "The request was aborted: The request was canceled.")
+            {
+                // The download was cancelled by the user. Don't throw an exception.
+                return null;
             }
             catch (Exception e)
             {

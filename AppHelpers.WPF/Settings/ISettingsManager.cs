@@ -33,7 +33,7 @@ namespace Bluegrams.Application
         /// <param name="propertyName">Name of the managed property.</param>
         /// <param name="defaultValue">If not null, the default value when no saved value was found.</param>
         /// <param name="roamed">True of setting should be roamed, otherwise false.</param>
-        void Manage(string propertyName, object defaultValue = null, bool roamed = false);
+        void Manage(string propertyName, object defaultValue = null, bool roamed = true);
         /// <summary>
         /// Manage the public property of the context object with the given name.
         /// </summary>
@@ -41,7 +41,7 @@ namespace Bluegrams.Application
         /// <param name="serializeAs">Specified how this setting should be serialized.</param>
         /// <param name="defaultValue">If not null, the default value when no saved value was found.</param>
         /// <param name="roamed">True of setting should be roamed, otherwise false.</param>
-        void Manage(string propertyName, SettingsSerializeAs serializeAs, object defaultValue = null, bool roamed = false);
+        void Manage(string propertyName, SettingsSerializeAs serializeAs, object defaultValue = null, bool roamed = true);
         /// <summary>
         /// Manage the public properties of the context object with the given names.
         /// </summary>

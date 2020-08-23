@@ -27,5 +27,8 @@
       <FileHash>A7541238CBBF70B4C1D94E9BAD8E2C02</FileHash>
     </Download>
   </Downloads>
-  <VersionNotes>Some release notes. Some more text.</VersionNotes>
+  <VersionNotes>Some release notes.</VersionNotes>
+  <ReleaseNotes>
+    <ReleaseNote lang="de">Deutsche Versionshinweise.</ReleaseNote>
+  </ReleaseNotes>
 </AppUpdate>

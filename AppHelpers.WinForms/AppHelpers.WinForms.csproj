@@ -119,6 +119,7 @@
     <Compile Include="Settings\WinFormsWindowManager.cs" />
     <Compile Include="Update\WinFormsUpdateChecker.cs" />
     <Compile Include="WinForms\AboutForm.cs" />
+    <Compile Include="WinForms\DownloadProgressForm.cs" />
     <Compile Include="WinForms\UpdateForm.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -29,14 +29,16 @@
         </StackPanel>
         <StackPanel Grid.Row="1" x:Name="stackVersionNotes">
             <TextBlock x:Name="txtWhatsNew" FontWeight="Bold" TextWrapping="Wrap"/>
-            <TextBox Height="100" IsReadOnly="True" Text="{Binding VersionNotes}"
+            <TextBox x:Name="txtReleaseNotes" Height="100" IsReadOnly="True"
                      VerticalScrollBarVisibility="Auto"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="{x:Static sp:Resources.strUpdate}" Click="Submit_Click"
                     IsDefault="True"/>
-            <Button Content="{x:Static sp:Resources.strRemindLater}" 
+            <Button Content="{x:Static sp:Resources.strRemindLater}" ToolTip="{x:Static sp:Resources.UpdateWindow_LaterTooltip}"
                     IsCancel="True"/>
+            <Button x:Name="butSkip" Content="{x:Static sp:Resources.strSkip}" ToolTip="{x:Static sp:Resources.UpdateWindow_SkipTooltip}"
+                    Click="SkipButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Bluegrams.Application
@@ -46,6 +47,16 @@ namespace Bluegrams.Application
         /// If no matching item found, VersionNotes is used as a default.
         /// </summary>
         public ReleaseNote[] ReleaseNotes { get; set; }
+
+        /// <summary>
+        /// Gets a matching release notes string for the given language code.
+        /// </summary>
+        /// <param name="langCode">The language code to search for. If not specified, fall back to default VersionNotes.</param>
+        /// <returns>The resolved string or null if none found.</returns>
+        public string GetReleaseNotes(string langCode = null)
+        {
+            return ReleaseNotes?.FirstOrDefault(o => o.LanguageCode == langCode)?.Text ?? VersionNotes;
+        }
     }
 
     /// <summary>

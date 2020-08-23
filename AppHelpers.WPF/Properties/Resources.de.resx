@@ -153,7 +153,7 @@ Versuchen Sie es später nochmal oder aktualisieren Sie manuell.</value>
     <value>Über</value>
   </data>
   <data name="strRemindLater" xml:space="preserve">
-    <value>Später erinnern</value>
+    <value>Später</value>
   </data>
   <data name="strSoftwareUpdate" xml:space="preserve">
     <value>Software Update</value>
@@ -176,5 +176,17 @@ Bitte suchen Sie manuell nach Aktualisierungen.</value>
   </data>
   <data name="DownloadProgressWindow_Text" xml:space="preserve">
     <value>Lädt Version {0} herunter . . .</value>
+  </data>
+  <data name="strCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="strSkip" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="UpdateWindow_SkipTooltip" xml:space="preserve">
+    <value>Für diese Version nicht mehr nachfragen</value>
+  </data>
+  <data name="UpdateWindow_LaterTooltip" xml:space="preserve">
+    <value>Beim nächsten Start erneut nachfragen</value>
   </data>
 </root>

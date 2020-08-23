@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Bluegrams.Application.Properties;
 
@@ -12,16 +13,18 @@ namespace Bluegrams.Application.WinForms
         private AppUpdate update;
         private Panel panTitle, panNotes, panBottom;
 
+        public bool SkipVersion { get; private set; }
+
         /// <summary>
         /// Creates a new instance of the class UpdateForm.
         /// </summary>
-        public UpdateForm(bool hasUpdate, AppUpdate update)
+        public UpdateForm(bool hasUpdate, AppUpdate update, bool allowSkip = false)
         {
             this.update = update;
-            Initialize();
+            Initialize(allowSkip);
         }
 
-        protected void Initialize()
+        protected void Initialize(bool showSkipButton)
         {
             // --- Title ---
             panTitle = new Panel();
@@ -48,7 +51,9 @@ namespace Bluegrams.Application.WinForms
             panTitle.Controls.Add(lblTitle);
             panTitle.Controls.Add(lblVersion);
             // --- Version Notes ---
-            if (!String.IsNullOrWhiteSpace(update.VersionNotes))
+            string langCode = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            string releaseNotes = update.GetReleaseNotes(langCode);
+            if (!String.IsNullOrWhiteSpace(releaseNotes))
             {
                 panNotes = new Panel();
                 panNotes.SuspendLayout();
@@ -66,7 +71,7 @@ namespace Bluegrams.Application.WinForms
                     Multiline = true,
                     ReadOnly = true,
                     Size = new Size(280, 100),
-                    Text = update.VersionNotes
+                    Text = releaseNotes
                 };
                 // panNotes
                 panNotes.Location = new Point(0, 85);
@@ -75,12 +80,13 @@ namespace Bluegrams.Application.WinForms
                 panNotes.Controls.Add(txtVersionNotes);
             }
             // --- Buttons ---
+            int leftOffset = showSkipButton ? 35 : 120;
             panBottom = new Panel();
             panBottom.SuspendLayout();
             // butSubmit
             Button butSubmit = new Button()
             {
-                Location = new Point(100, 9),
+                Location = new Point(leftOffset, 9),
                 Size = new Size(80, 22),
                 Text = Resources.strUpdate
             };
@@ -88,8 +94,8 @@ namespace Bluegrams.Application.WinForms
             // butRemindLater
             Button butRemindLater = new Button()
             {
-                Location = new Point(185, 9),
-                Size = new Size(100, 22),
+                Location = new Point(leftOffset + 85, 9),
+                Size = new Size(80, 22),
                 Text = Resources.strRemindLater
             };
             // panBottom
@@ -97,7 +103,19 @@ namespace Bluegrams.Application.WinForms
             panBottom.Size = new Size(290, 40);
             panBottom.Controls.Add(butSubmit);
             panBottom.Controls.Add(butRemindLater);
-            // --- AboutForm ---
+            // butSkip
+            if (showSkipButton)
+            {
+                Button butSkip = new Button()
+                {
+                    Location = new Point(leftOffset + 170, 9),
+                    Size = new Size(80, 22),
+                    Text = Resources.strSkip
+                };
+                butSkip.Click += butSkip_Click;
+                panBottom.Controls.Add(butSkip);
+            }
+            // --- Form ---
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.AcceptButton = butSubmit;
@@ -123,6 +141,13 @@ namespace Bluegrams.Application.WinForms
         private void butSubmit_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void butSkip_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.None;
+            this.SkipVersion = true;
             this.Close();
         }
     }

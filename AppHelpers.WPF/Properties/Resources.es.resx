@@ -145,9 +145,6 @@
   <data name="Box_NoNewUpdate" xml:space="preserve">
     <value>No hay nuevas versiones disponibles.</value>
   </data>
-  <data name="strRemindLater" xml:space="preserve">
-    <value>Recordar más tarde</value>
-  </data>
   <data name="strSoftwareUpdate" xml:space="preserve">
     <value>Actualización de software</value>
   </data>

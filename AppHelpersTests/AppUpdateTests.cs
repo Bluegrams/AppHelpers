@@ -89,5 +89,12 @@ namespace AppHelpersTests
             await Assert.ThrowsExceptionAsync<UpdateFailedException>(
                 () => updateChecker.DownloadUpdate(appUpdate));
         }
+
+        [TestMethod]
+        public void TestGetReleaseNotes()
+        {
+            Assert.AreEqual("Some release notes.", appUpdate.GetReleaseNotes());
+            Assert.AreEqual("Deutsche Versionshinweise.", appUpdate.GetReleaseNotes("de"));
+        }
     }
 }

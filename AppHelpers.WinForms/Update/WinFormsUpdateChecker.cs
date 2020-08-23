@@ -29,6 +29,7 @@ namespace Bluegrams.Application
             this.Owner = owner;
             settings = new CustomSettings(AppInfo.IsPortable.GetValueOrDefault(), typeof(UpdateCheckerBase).FullName);
             settings.AddSetting("CheckedUpdate", typeof(string), "0.0", true, System.Configuration.SettingsSerializeAs.String);
+            settings.AddSetting("SkipVersion", typeof(bool), false, true, System.Configuration.SettingsSerializeAs.String);
         }
 
         /// <inheritdoc />
@@ -36,32 +37,49 @@ namespace Bluegrams.Application
         {
             await base.OnUpdateCheckCompleted(e);
             bool isNewer = e.Successful && new Version(e.Update.Version) > new Version((string)settings["CheckedUpdate"]);
+            // --- update settings according to update info ---
+            if (isNewer)
+            {
+                settings["SkipVersion"] = false;
+            }
             if (e.NewVersion)
             {
                 settings["CheckedUpdate"] = e.Update.Version;
-                settings.Save();
             }
+            settings.Save();
+            // --- show update information if needed ---
             if (e.UpdateNotifyMode == UpdateNotifyMode.Never
-                || e.UpdateNotifyMode == UpdateNotifyMode.NewUncheckedUpdate && !isNewer)
+                || e.UpdateNotifyMode == UpdateNotifyMode.NewUncheckedUpdate && !isNewer
+                || e.UpdateNotifyMode == UpdateNotifyMode.Auto && !isNewer && (bool)settings["SkipVersion"])
                 return;
             else if (e.Successful && e.NewVersion)
             {
-                UpdateForm updateWindow = new UpdateForm(e.NewVersion, e.Update);
+                UpdateForm updateWindow = new UpdateForm(e.NewVersion, e.Update, allowSkip: e.UpdateNotifyMode == UpdateNotifyMode.Auto);
                 updateWindow.Owner = this.Owner;
                 if (updateWindow.ShowDialog() == DialogResult.OK)
                 {
+                    DownloadProgressForm progForm = new DownloadProgressForm(e.Update);
+                    progForm.Owner = this.Owner;
+                    progForm.Show();
                     try
                     { 
-                        string path = await DownloadUpdate(e.Update);
+                        string path = await DownloadUpdate(e.Update, progForm.DownloadProgress, ct: progForm.CancellationToken);
+                        progForm.Close();
                         if (System.IO.Path.GetExtension(path) == ".msi")
                             ApplyMsiUpdate(path);
-                        else ShowUpdateDownload(path);
+                        else if (!String.IsNullOrEmpty(path))
+                            ShowUpdateDownload(path);
                     }
                     catch (UpdateFailedException)
                     {
                         MessageBox.Show(this.Owner, Resources.Box_UpdateFailed, Resources.Box_UpdateFailed_Title,
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                }
+                else if (updateWindow.SkipVersion)
+                {
+                    settings["SkipVersion"] = true;
+                    settings.Save();
                 }
             }
             else if (e.UpdateNotifyMode == UpdateNotifyMode.Always)

@@ -145,6 +145,15 @@ namespace Bluegrams.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string strCancel {
+            get {
+                return ResourceManager.GetString("strCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Developer.
         /// </summary>
         public static string strDeveloper {
@@ -163,7 +172,7 @@ namespace Bluegrams.Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remind me later.
+        ///   Looks up a localized string similar to Later.
         /// </summary>
         public static string strRemindLater {
             get {
@@ -177,6 +186,15 @@ namespace Bluegrams.Application.Properties {
         public static string strRestart {
             get {
                 return ResourceManager.GetString("strRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        public static string strSkip {
+            get {
+                return ResourceManager.GetString("strSkip", resourceCulture);
             }
         }
         
@@ -213,6 +231,24 @@ namespace Bluegrams.Application.Properties {
         public static string UpdateWindow_Header {
             get {
                 return ResourceManager.GetString("UpdateWindow_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ask again at next startup.
+        /// </summary>
+        public static string UpdateWindow_LaterTooltip {
+            get {
+                return ResourceManager.GetString("UpdateWindow_LaterTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t ask again for this version.
+        /// </summary>
+        public static string UpdateWindow_SkipTooltip {
+            get {
+                return ResourceManager.GetString("UpdateWindow_SkipTooltip", resourceCulture);
             }
         }
         

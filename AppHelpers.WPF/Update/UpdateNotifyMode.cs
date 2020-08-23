@@ -12,6 +12,7 @@ namespace Bluegrams.Application
         NewUpdate = 0,
         Always = 1,
         NewUncheckedUpdate = 2,
-        Never = 3
+        Never = 3,
+        Auto = 4
     }
 }

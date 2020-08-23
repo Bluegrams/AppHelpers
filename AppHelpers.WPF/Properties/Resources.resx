@@ -146,7 +146,7 @@ Continue?</value>
     <value>No new updates available.</value>
   </data>
   <data name="strRemindLater" xml:space="preserve">
-    <value>Remind me later</value>
+    <value>Later</value>
   </data>
   <data name="strSoftwareUpdate" xml:space="preserve">
     <value>Software Update</value>
@@ -176,5 +176,17 @@ Please check for updates manually.</value>
   </data>
   <data name="DownloadProgressWindow_Text" xml:space="preserve">
     <value>Downloading version {0} . . .</value>
+  </data>
+  <data name="strCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="strSkip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="UpdateWindow_SkipTooltip" xml:space="preserve">
+    <value>Don't ask again for this version</value>
+  </data>
+  <data name="UpdateWindow_LaterTooltip" xml:space="preserve">
+    <value>Ask again at next startup</value>
   </data>
 </root>

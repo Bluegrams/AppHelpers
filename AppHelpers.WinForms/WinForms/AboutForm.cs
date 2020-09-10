@@ -24,6 +24,11 @@ namespace Bluegrams.Application.WinForms
         /// </summary>
         public Color AccentColor { get; set; } = Color.DarkGray;
 
+        /// <summary>
+        /// Raised when the user changes the UI language of the app.
+        /// </summary>
+        public event EventHandler<ChangeCultureEventArgs> CultureChanging;
+
         private Panel panTitle;
         private PictureBox picIcon;
         private TableLayoutPanel tableLayout;
@@ -227,11 +232,7 @@ namespace Bluegrams.Application.WinForms
 
         private void butChangeLang_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(Resources.InfoWindow_RestartNewLang, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
-                == DialogResult.OK)
-            {
-                changeCulture(AppInfo.SupportedCultures[cmbLang.SelectedIndex]);
-            }
+            changeCulture(AppInfo.SupportedCultures[cmbLang.SelectedIndex]);
         }
 
         private void butUpdate_Click(object sender, EventArgs e)
@@ -254,19 +255,28 @@ namespace Bluegrams.Application.WinForms
         // Note: Needs WindowManager instance for automatic change.
         private void changeCulture(CultureInfo culture)
         {
-            Settings.Default.Culture = culture.Name;
-            Settings.Default.Save();
-            /* Explicitly close the owner form if available to ensure closing events are called:
-                https://stackoverflow.com/a/13527298/9145461 */
-            this.Owner?.Close();
-            System.Windows.Forms.Application.Exit();
-            if (Environment.GetCommandLineArgs().Length > 1)
+            ChangeCultureEventArgs e = new ChangeCultureEventArgs(culture);
+            CultureChanging?.Invoke(this, e);
+            if (!e.SuppressDefault)
             {
-                string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
-                Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
-                Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                if (MessageBox.Show(Resources.InfoWindow_RestartNewLang, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+                    == DialogResult.OK)
+                {
+                    Settings.Default.Culture = culture.Name;
+                    Settings.Default.Save();
+                    /* Explicitly close the owner form if available to ensure closing events are called:
+                        https://stackoverflow.com/a/13527298/9145461 */
+                    this.Owner?.Close();
+                    System.Windows.Forms.Application.Exit();
+                    if (Environment.GetCommandLineArgs().Length > 1)
+                    {
+                        string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
+                        Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
+                        Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                    }
+                    else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                }
             }
-            else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
     }
 }

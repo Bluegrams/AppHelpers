@@ -91,6 +91,7 @@
     <Compile Include="Settings\CustomSettings.cs" />
     <Compile Include="Attributes\Link.cs" />
     <Compile Include="IDialogService.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="WPF\DownloadProgressWindow.xaml.cs">
       <DependentUpon>DownloadProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -124,7 +125,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>

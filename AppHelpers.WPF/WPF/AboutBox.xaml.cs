@@ -24,6 +24,11 @@ namespace Bluegrams.Application.WPF
         public Color AccentColor { get; set; } = Colors.DarkGray;
 
         /// <summary>
+        /// Raised when the user changes the UI language of the app.
+        /// </summary>
+        public event EventHandler<ChangeCultureEventArgs> CultureChanging;
+
+        /// <summary>
         /// Creates a new instance of the class AboutBox.
         /// </summary>
         /// <param name="icon">Product icon.</param>
@@ -77,11 +82,7 @@ namespace Bluegrams.Application.WPF
 
         private void butRestart_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(Properties.Resources.InfoWindow_RestartNewLang, "", MessageBoxButton.OKCancel, MessageBoxImage.Warning) 
-                == MessageBoxResult.OK)
-            {
-                changeCulture(AppInfo.SupportedCultures[comLanguages.SelectedIndex]);
-            }
+            changeCulture(AppInfo.SupportedCultures[comLanguages.SelectedIndex]);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -98,16 +99,25 @@ namespace Bluegrams.Application.WPF
         // Note: Needs WindowManager instance for automatic change.
         private void changeCulture(CultureInfo culture)
         {
-            Properties.Settings.Default.Culture = culture.Name;
-            Properties.Settings.Default.Save();
-            System.Windows.Application.Current.Shutdown();
-            if (Environment.GetCommandLineArgs().Length > 1)
+            ChangeCultureEventArgs e = new ChangeCultureEventArgs(culture);
+            CultureChanging?.Invoke(this, e);
+            if (!e.SuppressDefault)
             {
-                string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
-                Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
-                Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                if (MessageBox.Show(Properties.Resources.InfoWindow_RestartNewLang, "", MessageBoxButton.OKCancel, MessageBoxImage.Warning)
+                    == MessageBoxResult.OK)
+                {
+                    Properties.Settings.Default.Culture = culture.Name;
+                    Properties.Settings.Default.Save();
+                    System.Windows.Application.Current.Shutdown();
+                    if (Environment.GetCommandLineArgs().Length > 1)
+                    {
+                        string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
+                        Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
+                        Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                    }
+                    else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                }
             }
-            else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
     }
 }

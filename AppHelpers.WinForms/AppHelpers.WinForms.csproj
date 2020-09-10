@@ -70,6 +70,9 @@
     <Compile Include="..\AppHelpers.WPF\Attributes\SupportedCulturesAttribute.cs">
       <Link>Attributes\SupportedCulturesAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AppHelpers.WPF\Common.cs">
+      <Link>Common.cs</Link>
+    </Compile>
     <Compile Include="..\AppHelpers.WPF\IDialogService.cs">
       <Link>IDialogService.cs</Link>
     </Compile>
@@ -125,7 +128,7 @@
   <ItemGroup>
     <None Include="..\AppHelpers.WPF\Properties\Settings.settings">
       <Link>Properties\Settings.settings</Link>
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
     <None Include="AppHelpers.WinForms.nuspec">

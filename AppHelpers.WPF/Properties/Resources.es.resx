@@ -122,13 +122,13 @@
 ¿Reiniciar de todos modos?</value>
   </data>
   <data name="strAbout" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>Acerca de…</value>
   </data>
   <data name="strDeveloper" xml:space="preserve">
     <value>Desarrollador</value>
   </data>
   <data name="strRestart" xml:space="preserve">
-    <value>Reiniciar</value>
+    <value>Aplicar</value>
   </data>
   <data name="strLicense" xml:space="preserve">
     <value>Licencia</value>
@@ -173,5 +173,20 @@ Por favor, compruebe las actualizaciones manualmente.</value>
   </data>
   <data name="DownloadProgressWindow_Text" xml:space="preserve">
     <value>Descargando la versión {0} . . .</value>
+  </data>
+  <data name="strRemindLater" xml:space="preserve">
+    <value>Posponer</value>
+  </data>
+  <data name="strCancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="strSkip" xml:space="preserve">
+    <value>Omitir</value>
+  </data>
+  <data name="UpdateWindow_SkipTooltip" xml:space="preserve">
+    <value>No preguntar nuevamente en esta versión</value>
+  </data>
+  <data name="UpdateWindow_LaterTooltip" xml:space="preserve">
+    <value>Volver a preguntar en el siguiente inicio</value>
   </data>
 </root>

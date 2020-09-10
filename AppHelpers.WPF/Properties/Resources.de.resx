@@ -125,7 +125,7 @@ Fortsetzen?</value>
     <value>Entwickler</value>
   </data>
   <data name="strRestart" xml:space="preserve">
-    <value>Neustart</value>
+    <value>Anwenden</value>
   </data>
   <data name="strLicense" xml:space="preserve">
     <value>Lizenz</value>

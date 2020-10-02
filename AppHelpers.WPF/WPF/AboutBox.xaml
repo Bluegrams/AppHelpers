@@ -26,15 +26,20 @@
                    FontFamily="Arial" FontWeight="Bold" FontSize="22"/>
         </StackPanel>
         <StackPanel x:Name="stackLang" Height="57" DockPanel.Dock="Bottom">
-            <GroupBox>
+            <GroupBox Margin="0" Padding="0">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Margin="4,0" Content="{Binding}"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
                 <GroupBox.Header>
-                    <TextBlock Height="18" Text="{x:Static sp:Resources.strAppLanguage}"/>
+                    <TextBlock Height="18" Margin="0" Padding="0" Text="{x:Static sp:Resources.strAppLanguage}"/>
                 </GroupBox.Header>
                 <DockPanel>
                     <Button x:Name="butRestart" Click="butRestart_Click" Margin="5" Padding="15,0" DockPanel.Dock="Right">
                         <Binding Source="{x:Static sp:Resources.strRestart}"/>
                     </Button>
-                    <ComboBox x:Name="comLanguages" Margin="5"/>
+                    <ComboBox x:Name="comLanguages" Margin="5" DisplayMemberPath="NativeName"/>
                 </DockPanel>
             </GroupBox>
         </StackPanel>

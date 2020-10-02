@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using Bluegrams.Application.Properties;
 
@@ -14,6 +16,8 @@ namespace Bluegrams.Application.WinForms
     [DesignerCategory("")]
     public class AboutForm : Form
     {
+        private readonly bool showLanguageSelection;
+
         /// <summary>
         /// Specifies the service used for update checking when clicking the update button.
         /// </summary>
@@ -41,8 +45,9 @@ namespace Bluegrams.Application.WinForms
         /// Creates a new instance of the class AboutForm.
         /// </summary>
         /// <param name="icon">Product icon.</param>
-        public AboutForm(Bitmap icon = null)
+        public AboutForm(Bitmap icon = null, bool showLanguageSelection = true)
         {
+            this.showLanguageSelection = showLanguageSelection;
             Initialize();
             this.Load += AboutForm_Load;
             this.KeyPreview = true;
@@ -159,37 +164,54 @@ namespace Bluegrams.Application.WinForms
             tableLayout.SetColumnSpan(lnkWebsite, 2);
             #endregion
             // --- Language ---
-            if (AppInfo.SupportedCultures?.Length > 0)
+            if (showLanguageSelection)
             {
-                grpLanguage = new GroupBox();
-                grpLanguage.SuspendLayout();
-                // cmbLanguage
-                cmbLang = new ComboBox()
+                ICollection<CultureInfo> supportedCultures;
+                if (AppInfo.SupportedCultures != null)
+                    supportedCultures = AppInfo.SupportedCultures;
+                else supportedCultures = AppInfo.GetSupportedCultures();
+                if (supportedCultures.Count > 0)
                 {
-                    DropDownStyle = ComboBoxStyle.DropDownList,
-                    Location = new Point(15, 18),
-                    Size = new Size(165, 24)
-                };
-                foreach (CultureInfo cu in AppInfo.SupportedCultures)
-                {
-                    cmbLang.Items.Add(cu.DisplayName);
-                    if (cu.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
-                        cmbLang.SelectedIndex = cmbLang.Items.Count - 1;
+                    grpLanguage = new GroupBox();
+                    grpLanguage.SuspendLayout();
+                    // cmbLanguage
+                    cmbLang = new ComboBox()
+                    {
+                        DropDownStyle = ComboBoxStyle.DropDownList,
+                        Location = new Point(15, 18),
+                        Size = new Size(165, 24),
+                        DisplayMember = "NativeName"
+                    };
+                    bool exactMatch = false;
+                    foreach (CultureInfo cu in supportedCultures.OrderBy(c => c.Name))
+                    {
+                        cmbLang.Items.Add(cu);
+                        if (exactMatch) continue;
+                        if (cu.Name == CultureInfo.CurrentUICulture.Name)
+                        {
+                            cmbLang.SelectedIndex = cmbLang.Items.Count - 1;
+                            exactMatch = true;
+                        }
+                        else if (cu.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+                        {
+                            cmbLang.SelectedIndex = cmbLang.Items.Count - 1;
+                        }
+                    }
+                    // butChangeLang
+                    butChangeLang = new Button()
+                    {
+                        Location = new Point(185, 17),
+                        Size = new Size(85, 23),
+                        Text = Resources.strRestart
+                    };
+                    butChangeLang.Click += butChangeLang_Click;
+                    // grpLanguage
+                    grpLanguage.Location = new Point(5, 207);
+                    grpLanguage.Size = new Size(280, 50);
+                    grpLanguage.Text = Resources.strAppLanguage;
+                    grpLanguage.Controls.Add(cmbLang);
+                    grpLanguage.Controls.Add(butChangeLang);
                 }
-                // butChangeLang
-                butChangeLang = new Button()
-                {
-                    Location = new Point(185, 17),
-                    Size = new Size(85, 23),
-                    Text = Resources.strRestart
-                };
-                butChangeLang.Click += butChangeLang_Click;
-                // grpLanguage
-                grpLanguage.Location = new Point(5, 207);
-                grpLanguage.Size = new Size(280, 50);
-                grpLanguage.Text = Resources.strAppLanguage;
-                grpLanguage.Controls.Add(cmbLang);
-                grpLanguage.Controls.Add(butChangeLang);
             }
             // --- AboutForm ---
             this.AutoScaleDimensions = new SizeF(6F, 13F);
@@ -232,7 +254,7 @@ namespace Bluegrams.Application.WinForms
 
         private void butChangeLang_Click(object sender, EventArgs e)
         {
-            changeCulture(AppInfo.SupportedCultures[cmbLang.SelectedIndex]);
+            changeCulture(cmbLang.SelectedItem as CultureInfo);
         }
 
         private void butUpdate_Click(object sender, EventArgs e)
@@ -255,8 +277,16 @@ namespace Bluegrams.Application.WinForms
         // Note: Needs WindowManager instance for automatic change.
         private void changeCulture(CultureInfo culture)
         {
+            if (culture == null) return;
             ChangeCultureEventArgs e = new ChangeCultureEventArgs(culture);
             CultureChanging?.Invoke(this, e);
+            if (e.Success)
+            {
+                Settings.Default.Culture = culture.Name;
+                Settings.Default.Save();
+                this.Close();
+                return;
+            }
             if (!e.SuppressDefault)
             {
                 if (MessageBox.Show(Resources.InfoWindow_RestartNewLang, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)

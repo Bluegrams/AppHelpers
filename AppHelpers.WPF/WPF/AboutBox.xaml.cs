@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace Bluegrams.Application.WPF
 {
@@ -13,6 +15,8 @@ namespace Bluegrams.Application.WPF
     /// </summary>
     public partial class AboutBox : Window
     {
+        private readonly bool showLanguageSelection;
+
         /// <summary>
         /// Specifies the service used for update checking when clicking the update button.
         /// </summary>
@@ -32,9 +36,10 @@ namespace Bluegrams.Application.WPF
         /// Creates a new instance of the class AboutBox.
         /// </summary>
         /// <param name="icon">Product icon.</param>
-        public AboutBox(ImageSource icon = null)
+        public AboutBox(ImageSource icon = null, bool showLanguageSelection = true)
         {
             this.DataContext = this;
+            this.showLanguageSelection = showLanguageSelection;
             InitializeComponent();
             if (icon != null)
             {
@@ -51,16 +56,29 @@ namespace Bluegrams.Application.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (AppInfo.SupportedCultures?.Length > 0)
+            if (showLanguageSelection)
             {
-                foreach (CultureInfo cu in AppInfo.SupportedCultures)
+                ICollection<CultureInfo> supportedCultures;
+                if (AppInfo.SupportedCultures != null)
+                    supportedCultures = AppInfo.SupportedCultures;
+                else supportedCultures = AppInfo.GetSupportedCultures();
+                bool exactMatch = false;
+                foreach (CultureInfo cu in supportedCultures.OrderBy(c => c.Name))
                 {
-                    comLanguages.Items.Add(cu.DisplayName);
-                    if (cu.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+                    comLanguages.Items.Add(cu);
+                    if (exactMatch) continue;
+                    if (cu.Name == CultureInfo.CurrentUICulture.Name)
+                    {
                         comLanguages.SelectedIndex = comLanguages.Items.Count - 1;
+                        exactMatch = true;
+                    }
+                    else if (cu.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+                    {
+                        comLanguages.SelectedIndex = comLanguages.Items.Count - 1;
+                    }
                 }
             }
-            else
+            if (comLanguages.Items.Count < 1)
             {
                 stackLang.Visibility = Visibility.Collapsed;
             }
@@ -82,7 +100,7 @@ namespace Bluegrams.Application.WPF
 
         private void butRestart_Click(object sender, RoutedEventArgs e)
         {
-            changeCulture(AppInfo.SupportedCultures[comLanguages.SelectedIndex]);
+            changeCulture(comLanguages.SelectedItem as CultureInfo);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -99,8 +117,16 @@ namespace Bluegrams.Application.WPF
         // Note: Needs WindowManager instance for automatic change.
         private void changeCulture(CultureInfo culture)
         {
+            if (culture == null) return;
             ChangeCultureEventArgs e = new ChangeCultureEventArgs(culture);
             CultureChanging?.Invoke(this, e);
+            if (e.Success)
+            {
+                Properties.Settings.Default.Culture = culture.Name;
+                Properties.Settings.Default.Save();
+                this.Close();
+                return;
+            }
             if (!e.SuppressDefault)
             {
                 if (MessageBox.Show(Properties.Resources.InfoWindow_RestartNewLang, "", MessageBoxButton.OKCancel, MessageBoxImage.Warning)

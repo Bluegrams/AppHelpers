@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Bluegrams.Application.Attributes;
@@ -10,10 +11,6 @@ using Bluegrams.Application.Attributes;
 [assembly: ProductWebsite("http://example.org", "Example.org")]
 [assembly: ProductLicense("https://opensource.org/licenses/BSD-3-Clause", "BSD-3-Clause License")]
 [assembly: CompanyWebsite("http://example.org", "Example Inc.")]
-// Specifiy a list of cultures the application explicitly supports to fill a combo box 
-// that allows switching between these. If this property is not specified, 
-// the combo box won't be visible on the 'About' box.
-[assembly: SupportedCultures("de", "en", "es")]
 
 // General Information about an assembly is controlled through the following
 // set of attributes.
@@ -34,3 +31,7 @@ using Bluegrams.Application.Attributes;
 
 [assembly: AssemblyVersion("0.1.0.0")]
 [assembly: AssemblyFileVersion("0.1.0.0")]
+
+// Sets the neutral language of the app.
+// This attribute is important for the language selector of the about box.
+[assembly: NeutralResourcesLanguage("en")]

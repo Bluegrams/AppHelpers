@@ -163,7 +163,7 @@ namespace Bluegrams.Application
         /// <summary>
         /// Shows the downloaded file in explorer.
         /// </summary>
-        public void ShowUpdateDownload(string file)
+        public virtual void ShowUpdateDownload(string file)
         {
             Process proc = new Process();
             proc.StartInfo.FileName = "explorer.exe";

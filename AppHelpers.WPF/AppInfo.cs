@@ -70,6 +70,17 @@ namespace Bluegrams.Application
         }
 
         /// <summary>
+        /// Whether or not <see cref="Copyright"/> has a value.
+        /// </summary>
+        public static bool HasCopyright
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Copyright);
+            }
+        }
+
+        /// <summary>
         /// The assembly description.
         /// </summary>
         public static string Description
@@ -132,6 +143,17 @@ namespace Bluegrams.Application
             get
             {
                 return ((ProductLicenseAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(ProductLicenseAttribute)))?.LicenseLink;
+            }
+        }
+
+        /// <summary>
+        /// Whether or not the <see cref="ProductLicense"/> has a value.
+        /// </summary>
+        public static bool HasProductLicense
+        {
+            get
+            {
+                return ProductLicense != null;
             }
         }
 

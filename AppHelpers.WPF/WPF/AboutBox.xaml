@@ -52,7 +52,7 @@
                 </Style>
             </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -63,7 +63,8 @@
                 <ColumnDefinition Width="5*"></ColumnDefinition>
                 <ColumnDefinition Width="9*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding Source={x:Static local:AppInfo.Description}}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Source={x:Static local:AppInfo.Description}}"
+                       TextWrapping="Wrap" Padding="5"/>
             <Label Grid.Row="1" Grid.Column="0" Content="{Binding Source={x:Static sp:Resources.strVersion}}"/>
             <DockPanel Grid.Row="1" Grid.Column="1">
                 <Button DockPanel.Dock="Right" x:Name="butUpdate" Content="{Binding Source={x:Static sp:Resources.strUpdate}}" 

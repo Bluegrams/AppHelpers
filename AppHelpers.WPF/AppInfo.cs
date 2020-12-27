@@ -21,7 +21,7 @@ namespace Bluegrams.Application
         {
             get
             {
-                return ((AssemblyProductAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyProductAttribute))).Product;
+                return ((AssemblyProductAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyProductAttribute)))?.Product;
             }
         }
 
@@ -32,7 +32,7 @@ namespace Bluegrams.Application
         {
             get
             {
-                return ((AssemblyTitleAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyTitleAttribute))).Title;
+                return ((AssemblyTitleAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyTitleAttribute)))?.Title;
             }
         }
 
@@ -43,7 +43,7 @@ namespace Bluegrams.Application
         {
             get
             {
-                return ((AssemblyCompanyAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyCompanyAttribute))).Company;
+                return ((AssemblyCompanyAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyCompanyAttribute)))?.Company;
             }
         }
 
@@ -65,7 +65,18 @@ namespace Bluegrams.Application
         {
             get
             {
-                return ((AssemblyCopyrightAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyCopyrightAttribute))).Copyright;
+                return ((AssemblyCopyrightAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyCopyrightAttribute)))?.Copyright;
+            }
+        }
+
+        /// <summary>
+        /// Whether or not <see cref="Copyright"/> has a value.
+        /// </summary>
+        public static bool HasCopyright
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Copyright);
             }
         }
 
@@ -76,7 +87,7 @@ namespace Bluegrams.Application
         {
             get
             {
-                return ((AssemblyDescriptionAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyDescriptionAttribute))).Description;
+                return ((AssemblyDescriptionAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(AssemblyDescriptionAttribute)))?.Description;
             }
         }
 
@@ -132,6 +143,17 @@ namespace Bluegrams.Application
             get
             {
                 return ((ProductLicenseAttribute)Assembly.GetEntryAssembly().GetCustomAttribute(typeof(ProductLicenseAttribute)))?.LicenseLink;
+            }
+        }
+
+        /// <summary>
+        /// Whether or not the <see cref="ProductLicense"/> has a value.
+        /// </summary>
+        public static bool HasProductLicense
+        {
+            get
+            {
+                return ProductLicense != null;
             }
         }
 

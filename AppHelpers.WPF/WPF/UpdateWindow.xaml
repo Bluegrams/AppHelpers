@@ -30,7 +30,7 @@
         <StackPanel Grid.Row="1" x:Name="stackVersionNotes">
             <TextBlock x:Name="txtWhatsNew" FontWeight="Bold" TextWrapping="Wrap"/>
             <TextBox x:Name="txtReleaseNotes" Height="100" IsReadOnly="True"
-                     VerticalScrollBarVisibility="Auto"/>
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="{x:Static sp:Resources.strUpdate}" Click="Submit_Click"

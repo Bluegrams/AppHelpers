@@ -2,15 +2,15 @@
 <package>
   <metadata>
     <id>$id$</id>
-    <version>0.1.0-rc4</version>
+    <version>0.1.0</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/bluegrams/apphelpers/blob/master/LICENSE.txt</licenseUrl>
+    <license type="expression">BSD-3-Clause</license>
     <projectUrl>https://github.com/bluegrams/apphelpers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Some helpers for desktop application development with WPF.</description>
-    <copyright>© 2020 Bluegrams</copyright>
+    <copyright>© 2019-2021 Bluegrams</copyright>
     <tags>wpf application settings aboutbox portable</tags>
   </metadata>
   <files>

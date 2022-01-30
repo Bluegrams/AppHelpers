@@ -7,6 +7,9 @@ namespace Bluegrams.Application.WPF
 {
     public partial class UpdateWindow : Window
     {
+        /// <summary>
+        /// Whether the found update should be skipped.
+        /// </summary>
         public bool SkipVersion { get; private set; }
 
         /// <summary>

@@ -70,10 +70,11 @@ namespace Bluegrams.Application
                         else if (!String.IsNullOrEmpty(path))
                             ShowUpdateDownload(path);
                     }
-                    catch (UpdateFailedException)
+                    catch (UpdateFailedException ex)
                     {
-                        MessageBox.Show(this.Owner, Resources.Box_UpdateFailed, Resources.Box_UpdateFailed_Title,
+                        MessageBox.Show(this.Owner, String.Format(Resources.Box_UpdateFailed, ex), Resources.Box_UpdateFailed_Title,
                             MessageBoxButton.OK, MessageBoxImage.Error);
+                        Logger.Default.Log(ex.Message, ex.InnerException);
                     }
                 }
                 else if (updateWindow.SkipVersion)

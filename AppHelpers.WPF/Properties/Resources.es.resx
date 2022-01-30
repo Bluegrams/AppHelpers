@@ -150,6 +150,7 @@
   </data>
   <data name="Box_UpdateFailed" xml:space="preserve">
     <value>Falló la descarga de la actualización.
+Razón: {0}
 Podrá intentarlo nuevamente después o puede actualizar manualmente.</value>
   </data>
   <data name="Box_UpdateFailed_Title" xml:space="preserve">

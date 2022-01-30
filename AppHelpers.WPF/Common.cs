@@ -3,8 +3,14 @@ using System.Globalization;
 
 namespace Bluegrams.Application
 {
+    /// <summary>
+    /// Holds event data for the CultureChanging event in the 'About' window.
+    /// </summary>
     public class ChangeCultureEventArgs : EventArgs
     {
+        /// <summary>
+        /// The new UI culture to set.
+        /// </summary>
         public CultureInfo NewCulture { get; }
 
         /// <summary>
@@ -17,6 +23,10 @@ namespace Bluegrams.Application
         /// </summary>
         public bool SuppressDefault { get; set; } = false;
 
+        /// <summary>
+        /// Creates new event data for the CultureChanging event in the 'About' window.
+        /// </summary>
+        /// <param name="newCulture">Thw new UI culture to set.</param>
         public ChangeCultureEventArgs(CultureInfo newCulture)
         {
             this.NewCulture = newCulture;

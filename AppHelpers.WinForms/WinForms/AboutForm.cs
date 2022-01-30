@@ -45,6 +45,7 @@ namespace Bluegrams.Application.WinForms
         /// Creates a new instance of the class AboutForm.
         /// </summary>
         /// <param name="icon">Product icon.</param>
+        /// <param name="showLanguageSelection">Whether to show the language selection combo box.</param>
         public AboutForm(Bitmap icon = null, bool showLanguageSelection = true)
         {
             this.showLanguageSelection = showLanguageSelection;
@@ -292,6 +293,11 @@ namespace Bluegrams.Application.WinForms
                 if (MessageBox.Show(Resources.InfoWindow_RestartNewLang, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
                     == DialogResult.OK)
                 {
+#if NET6_0_OR_GREATER
+                    string appPath = Environment.ProcessPath;
+#else
+                    string appPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+#endif
                     Settings.Default.Culture = culture.Name;
                     Settings.Default.Save();
                     /* Explicitly close the owner form if available to ensure closing events are called:
@@ -302,9 +308,9 @@ namespace Bluegrams.Application.WinForms
                     {
                         string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
                         Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
-                        Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                        Process.Start(appPath, String.Join(" ", args));
                     }
-                    else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    else Process.Start(appPath);
                 }
             }
         }

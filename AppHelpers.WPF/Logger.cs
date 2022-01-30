@@ -28,7 +28,7 @@ namespace Bluegrams.Application
         public void Log(string message, Exception ex)
         {
             string logEntry = $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm")}] {message}";
-            File.AppendAllLines(file, new[] { logEntry, ex.ToString() });
+            File.AppendAllLines(file, new[] { logEntry, ex?.ToString() });
         }
     }
 }

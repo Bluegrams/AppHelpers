@@ -36,6 +36,7 @@ namespace Bluegrams.Application.WPF
         /// Creates a new instance of the class AboutBox.
         /// </summary>
         /// <param name="icon">Product icon.</param>
+        /// /// <param name="showLanguageSelection">Whether to show the language selection combo box.</param>
         public AboutBox(ImageSource icon = null, bool showLanguageSelection = true)
         {
             this.DataContext = this;
@@ -132,6 +133,11 @@ namespace Bluegrams.Application.WPF
                 if (MessageBox.Show(Properties.Resources.InfoWindow_RestartNewLang, "", MessageBoxButton.OKCancel, MessageBoxImage.Warning)
                     == MessageBoxResult.OK)
                 {
+#if NET6_0_OR_GREATER
+                    string appPath = Environment.ProcessPath;
+#else
+                    string appPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+#endif
                     Properties.Settings.Default.Culture = culture.Name;
                     Properties.Settings.Default.Save();
                     System.Windows.Application.Current.Shutdown();
@@ -139,9 +145,9 @@ namespace Bluegrams.Application.WPF
                     {
                         string[] args = new string[Environment.GetCommandLineArgs().Length - 1];
                         Array.Copy(Environment.GetCommandLineArgs(), 1, args, 0, args.Length);
-                        Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location, String.Join(" ", args));
+                        Process.Start(appPath, String.Join(" ", args));
                     }
-                    else Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    else Process.Start(appPath);
                 }
             }
         }

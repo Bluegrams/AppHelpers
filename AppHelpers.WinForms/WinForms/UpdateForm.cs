@@ -7,12 +7,18 @@ using Bluegrams.Application.Properties;
 
 namespace Bluegrams.Application.WinForms
 {
+    /// <summary>
+    /// A dialog box showing update information.
+    /// </summary>
     [DesignerCategory("")]
     public class UpdateForm : Form
     {
         private AppUpdate update;
         private Panel panTitle, panNotes, panBottom;
 
+        /// <summary>
+        /// Whether the found update should be skipped.
+        /// </summary>
         public bool SkipVersion { get; private set; }
 
         /// <summary>

@@ -153,6 +153,7 @@ Continue?</value>
   </data>
   <data name="Box_UpdateFailed" xml:space="preserve">
     <value>Downloading updates failed.
+Reason: {0}
 You may try again later or consider updating manually.</value>
   </data>
   <data name="Box_UpdateFailed_Title" xml:space="preserve">

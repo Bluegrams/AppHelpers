@@ -1,52 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FFD342F8-618C-4E7D-A223-4EBEFE7DE11E}</ProjectGuid>
+    <TargetFrameworks>net45;net6.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bluegrams.Application</RootNamespace>
-    <AssemblyName>AppHelpers.WinForms</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>0.1.1</Version>
+    <Authors>Bluegrams</Authors>
+    <Description>Some helpers for desktop application development with WinForms.</Description>
+    <Copyright>© 2019-2022 Bluegrams</Copyright>
+    <PackageProjectUrl>https://github.com/bluegrams/apphelpers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bluegrams/apphelpers</RepositoryUrl>
+    <PackageTags>winforms;application;settings;aboutbox;portable;updater</PackageTags>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AppHelpers.WinForms.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PortableSettingsProvider, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PortableSettingsProvider.0.2.3\lib\net45\PortableSettingsProvider.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AppHelpers.WPF\AppInfo.cs">
       <Link>AppInfo.cs</Link>
@@ -78,12 +55,8 @@
     <Compile Include="..\AppHelpers.WPF\Logger.cs">
       <Link>Logger.cs</Link>
     </Compile>
-    <Compile Include="..\AppHelpers.WPF\Properties\Resources.Designer.cs">
-      <Link>Properties\Resources.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Properties\Settings.Designer.cs">
-      <Link>Properties\Settings.Designer.cs</Link>
-    </Compile>
+    <Compile Include="..\AppHelpers.WPF\Properties\Resources.Designer.cs" Link="Properties\Resources.Designer.cs" />
+    <Compile Include="..\AppHelpers.WPF\Properties\Settings.Designer.cs" Link="Properties\Settings.Designer.cs" />
     <Compile Include="..\AppHelpers.WPF\Settings\CustomSettings.cs">
       <Link>Settings\CustomSettings.cs</Link>
     </Compile>
@@ -117,42 +90,24 @@
     <Compile Include="..\AppHelpers.WPF\Update\WebClientExtensions.cs">
       <Link>Update\WebClientExtensions.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\WinFormsWindowManager.cs" />
-    <Compile Include="Update\WinFormsUpdateChecker.cs" />
-    <Compile Include="WinForms\AboutForm.cs" />
-    <Compile Include="WinForms\DownloadProgressForm.cs" />
-    <Compile Include="WinForms\UpdateForm.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\AppHelpers.WPF\Properties\Settings.settings">
-      <Link>Properties\Settings.settings</Link>
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="AppHelpers.WinForms.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.de.resx" Link="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.es.resx" Link="Properties\Resources.es.resx" />
+    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.resx" Link="Properties\Resources.resx" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.de.resx">
-      <Link>Properties\Resources.de.resx</Link>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.es.resx">
-      <Link>Properties\Resources.es.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.resx">
-      <Link>Properties\Resources.resx</Link>
-    </EmbeddedResource>
+    <None Include="..\AppHelpers.WPF\Properties\Settings.settings" Link="Properties\Settings.settings" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PostBuildEvent>
-      cd $(ProjectDir)
-      nuget pack $(ProjectFileName) -properties Configuration=Release -IncludeReferencedProjects
-    </PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="PortableSettingsProvider" Version="0.2.4" />
+  </ItemGroup>
 </Project>

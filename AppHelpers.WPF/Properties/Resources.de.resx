@@ -144,6 +144,7 @@ Fortsetzen?</value>
   </data>
   <data name="Box_UpdateFailed" xml:space="preserve">
     <value>Herunterladen der Updates fehlgeschlagen.
+Grund: {0}
 Versuchen Sie es später nochmal oder aktualisieren Sie manuell.</value>
   </data>
   <data name="Box_UpdateFailed_Title" xml:space="preserve">

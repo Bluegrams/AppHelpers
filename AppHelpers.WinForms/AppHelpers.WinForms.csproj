@@ -1,113 +1,123 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net45;net6.0-windows</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Bluegrams.Application</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.1.1</Version>
-    <Authors>Bluegrams</Authors>
-    <Description>Some helpers for desktop application development with WinForms.</Description>
-    <Copyright>© 2019-2022 Bluegrams</Copyright>
-    <PackageProjectUrl>https://github.com/bluegrams/apphelpers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/bluegrams/apphelpers</RepositoryUrl>
-    <PackageTags>winforms;application;settings;aboutbox;portable;updater</PackageTags>
-    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DocumentationFile>bin\Release\AppHelpers.WinForms.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\AppHelpers.WPF\AppInfo.cs">
-      <Link>AppInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\AppPortableAttribute.cs">
-      <Link>Attributes\AppPortableAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\CompanyWebsiteAttribute.cs">
-      <Link>Attributes\CompanyWebsiteAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\Link.cs">
-      <Link>Attributes\Link.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\ProductLicenseAttribute.cs">
-      <Link>Attributes\ProductLicenseAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\ProductWebsiteAttribute.cs">
-      <Link>Attributes\ProductWebsiteAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Attributes\SupportedCulturesAttribute.cs">
-      <Link>Attributes\SupportedCulturesAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Common.cs">
-      <Link>Common.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\IDialogService.cs">
-      <Link>IDialogService.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Logger.cs">
-      <Link>Logger.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Properties\Resources.Designer.cs" Link="Properties\Resources.Designer.cs" />
-    <Compile Include="..\AppHelpers.WPF\Properties\Settings.Designer.cs" Link="Properties\Settings.Designer.cs" />
-    <Compile Include="..\AppHelpers.WPF\Settings\CustomSettings.cs">
-      <Link>Settings\CustomSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Settings\Helpers.cs">
-      <Link>Settings\Helpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Settings\ISettingsManager.cs">
-      <Link>Settings\ISettingsManager.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Settings\WindowManager.cs">
-      <Link>Settings\WindowManager.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\AppUpdate.cs">
-      <Link>Update\AppUpdate.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\IUpdateChecker.cs">
-      <Link>Update\IUpdateChecker.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\UpdateCheckerBase.cs">
-      <Link>Update\UpdateCheckerBase.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\UpdateCheckEventArgs.cs">
-      <Link>Update\UpdateCheckEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\UpdateFailedException.cs">
-      <Link>Update\UpdateFailedException.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\UpdateNotifyMode.cs">
-      <Link>Update\UpdateNotifyMode.cs</Link>
-    </Compile>
-    <Compile Include="..\AppHelpers.WPF\Update\WebClientExtensions.cs">
-      <Link>Update\WebClientExtensions.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.de.resx" Link="Properties\Resources.de.resx" />
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.es.resx" Link="Properties\Resources.es.resx" />
-    <EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.resx" Link="Properties\Resources.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\AppHelpers.WPF\Properties\Settings.settings" Link="Properties\Settings.settings" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="PortableSettingsProvider" Version="0.2.4" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net45;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Bluegrams.Application</RootNamespace>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup>
+		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>0.1.1</Version>
+		<Authors>Bluegrams</Authors>
+		<Description>Some helpers for desktop application development with WinForms.</Description>
+		<Copyright>© 2019-2022 Bluegrams</Copyright>
+		<PackageProjectUrl>https://github.com/bluegrams/apphelpers</PackageProjectUrl>
+		<PackageTags>winforms;application;settings;aboutbox;portable;updater</PackageTags>
+		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DocumentationFile>bin\Release\AppHelpers.WinForms.xml</DocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="..\AppHelpers.WPF\AppInfo.cs">
+			<Link>AppInfo.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\AppPortableAttribute.cs">
+			<Link>Attributes\AppPortableAttribute.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\CompanyWebsiteAttribute.cs">
+			<Link>Attributes\CompanyWebsiteAttribute.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\Link.cs">
+			<Link>Attributes\Link.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\ProductLicenseAttribute.cs">
+			<Link>Attributes\ProductLicenseAttribute.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\ProductWebsiteAttribute.cs">
+			<Link>Attributes\ProductWebsiteAttribute.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Attributes\SupportedCulturesAttribute.cs">
+			<Link>Attributes\SupportedCulturesAttribute.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Common.cs">
+			<Link>Common.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\IDialogService.cs">
+			<Link>IDialogService.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Logger.cs">
+			<Link>Logger.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Properties\Resources.Designer.cs" Link="Properties\Resources.Designer.cs" />
+		<Compile Include="..\AppHelpers.WPF\Properties\Settings.Designer.cs" Link="Properties\Settings.Designer.cs" />
+		<Compile Include="..\AppHelpers.WPF\Settings\CustomSettings.cs">
+			<Link>Settings\CustomSettings.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Settings\Helpers.cs">
+			<Link>Settings\Helpers.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Settings\ISettingsManager.cs">
+			<Link>Settings\ISettingsManager.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Settings\WindowManager.cs">
+			<Link>Settings\WindowManager.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\AppUpdate.cs">
+			<Link>Update\AppUpdate.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\IUpdateChecker.cs">
+			<Link>Update\IUpdateChecker.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\UpdateCheckerBase.cs">
+			<Link>Update\UpdateCheckerBase.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\UpdateCheckEventArgs.cs">
+			<Link>Update\UpdateCheckEventArgs.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\UpdateFailedException.cs">
+			<Link>Update\UpdateFailedException.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\UpdateNotifyMode.cs">
+			<Link>Update\UpdateNotifyMode.cs</Link>
+		</Compile>
+		<Compile Include="..\AppHelpers.WPF\Update\WebClientExtensions.cs">
+			<Link>Update\WebClientExtensions.cs</Link>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.de.resx" Link="Properties\Resources.de.resx" />
+		<EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.es.resx" Link="Properties\Resources.es.resx" />
+		<EmbeddedResource Include="..\AppHelpers.WPF\Properties\Resources.resx" Link="Properties\Resources.resx" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\AppHelpers.WPF\Properties\Settings.settings" Link="Properties\Settings.settings">
+		  <Generator>SettingsSingleFileGenerator</Generator>
+		</None>
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="PortableSettingsProvider" Version="0.2.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
 </Project>

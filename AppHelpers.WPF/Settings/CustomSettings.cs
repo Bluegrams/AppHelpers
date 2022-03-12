@@ -37,7 +37,7 @@ namespace Bluegrams.Application
         /// <param name="propInfo">The property info of the property to add.</param>
         /// <param name="defaultValue">The default value of the property.</param>
         /// <param name="roamed">Specifies if this setting should be roamed.</param>
-        internal void AddSetting(PropertyInfo propInfo, object defaultValue = null, bool roamed = true)
+        public void AddSetting(PropertyInfo propInfo, object defaultValue = null, bool roamed = true)
         {
             AddSetting(propInfo, defaultValue, roamed, getSerializeAs(propInfo.PropertyType));
         }
@@ -49,12 +49,20 @@ namespace Bluegrams.Application
         /// <param name="serializeAs">The serialization mode of the property.</param>
         /// <param name="defaultValue">The default value of the property.</param>
         /// <param name="roamed">Specifies if this setting should be roamed.</param>
-        internal void AddSetting(PropertyInfo propInfo, object defaultValue, bool roamed, SettingsSerializeAs serializeAs)
+        public void AddSetting(PropertyInfo propInfo, object defaultValue, bool roamed = true, SettingsSerializeAs serializeAs = SettingsSerializeAs.Xml)
         {
             AddSetting(propInfo.Name, propInfo.PropertyType, defaultValue, roamed, serializeAs);
         }
 
-        internal void AddSetting(string name, Type type, object defaultValue, bool roamed, SettingsSerializeAs serializeAs)
+        /// <summary>
+        /// Adds a settings property.
+        /// </summary>
+        /// <param name="name">Name of the property to add.</param>
+        /// <param name="type">Type of the property to add.</param>
+        /// <param name="defaultValue">The default value of the property.</param>
+        /// <param name="roamed">Specifies if this property should be roamed.</param>
+        /// <param name="serializeAs">Specifies how the property should be serialized.</param>
+        public void AddSetting(string name, Type type, object defaultValue, bool roamed = true, SettingsSerializeAs serializeAs = SettingsSerializeAs.Xml)
         {
             SettingsProperty settingsProp = new SettingsProperty(name);
             settingsProp.PropertyType = type;

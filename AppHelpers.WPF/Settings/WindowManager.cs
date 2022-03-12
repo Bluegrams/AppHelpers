@@ -19,6 +19,23 @@ namespace Bluegrams.Application
         public CustomSettings CustomSettings { get; }
 
         /// <summary>
+        /// Occurs before all managed settings are loaded.
+        /// </summary>
+        public event EventHandler BeforeLoaded;
+        /// <summary>
+        /// Occurs after all managed settings are loaded.
+        /// </summary>
+        public event EventHandler AfterLoaded;
+        /// <summary>
+        /// Occurs before all managed settings are saved.
+        /// </summary>
+        public event EventHandler BeforeSaved;
+        /// <summary>
+        /// Occurs after all managed settings are saved.
+        /// </summary>
+        public event EventHandler AfterSaved;
+
+        /// <summary>
         /// Initializes a new instance of MiniAppManagerBase.
         /// </summary>
         /// <param name="context">The parent window.</param>
@@ -39,10 +56,10 @@ namespace Bluegrams.Application
         public void Initialize(string loadEvent, string saveEvent)
         {
             EventInfo loadInfo = typeof(T).GetEvent(loadEvent);
-            var dLoad = Helpers.CreateHandler(loadInfo, () => ContextLoad());
+            var dLoad = Helpers.CreateHandler(loadInfo, () => executeContextLoad());
             loadInfo.AddEventHandler(Context, dLoad);
             EventInfo saveInfo = typeof(T).GetEvent(saveEvent);
-            var dSave = Helpers.CreateHandler(saveInfo, () => ContextSave());
+            var dSave = Helpers.CreateHandler(saveInfo, () => executeContextSave());
             saveInfo.AddEventHandler(Context, dSave);
             // upgrade settings from old version if necessary
             if (!Properties.Settings.Default.Updated)
@@ -56,6 +73,20 @@ namespace Bluegrams.Application
                 Properties.Settings.Default.Updated = true;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void executeContextLoad()
+        {
+            BeforeLoaded?.Invoke(this, EventArgs.Empty);
+            ContextLoad();
+            AfterLoaded?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void executeContextSave()
+        {
+            BeforeSaved?.Invoke(this, EventArgs.Empty);
+            ContextSave();
+            AfterSaved?.Invoke(this, EventArgs.Empty);
         }
 
         /// <inheritdoc />

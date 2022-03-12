@@ -1,42 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net45;net6.0-windows</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Bluegrams.Application</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DocumentationFile>bin\Debug\AppHelpers.WPF.xml</DocumentationFile>
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DocumentationFile>bin\Release\AppHelpers.WPF.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.1.1</Version>
-    <Authors>Bluegrams</Authors>
-    <Description>Some helpers for desktop application development with WPF.</Description>
-    <Copyright>© 2019-2022 Bluegrams</Copyright>
-    <PackageProjectUrl>https://github.com/bluegrams/apphelpers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/bluegrams/apphelpers</RepositoryUrl>
-    <PackageTags>wpf;application;settings;aboutbox;portable;updater</PackageTags>
-    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-	<DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System.Windows" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="PortableSettingsProvider" Version="0.2.4" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net45;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Bluegrams.Application</RootNamespace>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DocumentationFile>bin\Debug\AppHelpers.WPF.xml</DocumentationFile>
+		<LangVersion>default</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DocumentationFile>bin\Release\AppHelpers.WPF.xml</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup>
+		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>0.1.1</Version>
+		<Authors>Bluegrams</Authors>
+		<Description>Some helpers for desktop application development with WPF.</Description>
+		<Copyright>© 2019-2022 Bluegrams</Copyright>
+		<PackageProjectUrl>https://github.com/bluegrams/apphelpers</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/bluegrams/apphelpers</RepositoryUrl>
+		<PackageTags>wpf;application;settings;aboutbox;portable;updater</PackageTags>
+		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+		<Reference Include="System.Windows" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="PortableSettingsProvider" Version="0.2.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+	</ItemGroup>
 </Project>
